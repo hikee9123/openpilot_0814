@@ -51,7 +51,7 @@ class CarController():
     sys_warning = (visual_alert in (VisualAlert.steerRequired, VisualAlert.ldw))
 
     if sys_warning:
-      self.hud_timer_alert = 100
+      self.hud_timer_alert = 300
 
     if left_lane:
       self.hud_timer_left = 100
