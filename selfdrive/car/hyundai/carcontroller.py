@@ -51,7 +51,7 @@ class CarController():
     sys_warning = (visual_alert in (VisualAlert.steerRequired, VisualAlert.ldw))
 
     if sys_warning:
-      self.hud_timer_alert = 300
+      self.hud_timer_alert = 500
 
     if left_lane:
       self.hud_timer_left = 100
@@ -73,7 +73,7 @@ class CarController():
     # initialize to no line visible
     sys_state = 1
     if self.hud_timer_left and self.hud_timer_right or sys_warning:  # HUD alert only display when LKAS status is active
-      if enabled or sys_warning:
+      if enabled: # or sys_warning:
         sys_state = 3
       else:
         sys_state = 4
