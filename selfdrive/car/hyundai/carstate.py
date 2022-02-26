@@ -293,9 +293,9 @@ class CarState(CarStateBase):
     # save the entire LKAS11 and CLU11
     self.lfahda = copy.copy(cp_cam.vl["LFAHDA_MFC"])
     self.mdps12 = copy.copy(cp.vl["MDPS12"])
+    self.scc12 = copy.copy(cp.vl["SCC12"])
     self.lkas11 = copy.copy(cp_cam.vl["LKAS11"])
     self.clu11 = copy.copy(cp.vl["CLU11"])
-    self.scc12 = copy.copy(cp.vl["SCC12"])
     self.park_brake = cp.vl["TCS13"]["PBRAKE_ACT"] == 1
     self.steer_state = cp.vl["MDPS12"]["CF_Mdps_ToiActive"]  # 0 NOT ACTIVE, 1 ACTIVE
     self.brake_error = cp.vl["TCS13"]["ACCEnable"] != 0 # 0 ACC CONTROL ENABLED, 1-3 ACC CONTROL DISABLED
@@ -348,9 +348,9 @@ class CarState(CarStateBase):
       ("ACCEnable", "TCS13"),
       ("ACC_REQ", "TCS13"),
       ("DriverBraking", "TCS13"),
-      ("BrakeLight", "TCS13"),      
       ("StandStill", "TCS13"),
       ("PBRAKE_ACT", "TCS13"),
+      ("BrakeLight", "TCS13"), 
 
       ("ESC_Off_Step", "TCS15"),
       ("AVH_LAMP", "TCS15"),
@@ -406,7 +406,6 @@ class CarState(CarStateBase):
         ("VSetDis", "SCC11"),
         ("SCCInfoDisplay", "SCC11"),
         ("ACC_ObjDist", "SCC11"),
-
         ("ACCMode", "SCC12"),
 
         ("aReqRaw", "SCC12"),
