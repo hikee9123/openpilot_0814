@@ -204,7 +204,7 @@ DeveloperPanel::DeveloperPanel(QWidget* parent) : QFrame(parent)
   auto laserlevel_exe = new ButtonControl("laserlevel Open", "Open","laserlevel을 실행 합니다.");
   connect(laserlevel_exe, &ButtonControl::clicked, [=]() 
   { 
-    std::system("aam start com.goodappsoftware.laserlevel/com.goodappsoftware.laserlevel.MainActivity");
+    std::system("am start com.goodappsoftware.laserlevel/com.goodappsoftware.laserlevel.MainActivity");
   });  
 
 
