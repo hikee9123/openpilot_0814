@@ -233,6 +233,8 @@ kj::Array<uint8_t> get_frame_image(const CameraBuf *b) {
   static const int env_ymax = util::getenv("YMAX", -1);
   static const int scale = util::getenv("SCALE", 1);
 
+  printf("x_min=%d, y_min =%d, env_xmax =%d env_ymax =%d scale=%d \n",x_min,y_min,env_xmax,env_ymax,scale );
+
   assert(b->cur_rgb_buf);
 
   const int x_max = env_xmax != -1 ? env_xmax : b->rgb_width - 1;
