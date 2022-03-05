@@ -504,6 +504,8 @@ class Controls:
       steerRatio = self.update_modelToSteerRatio( params.steerRatio )
       sr = max(steerRatio, 5.0)
 
+    print('sr={} self.OpkrLiveSteerRatio={}'.format(sr, self.OpkrLiveSteerRatio) )
+
     self.VM.update_params(x, sr)
 
     lat_plan = self.sm['lateralPlan']
