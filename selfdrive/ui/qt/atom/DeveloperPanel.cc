@@ -198,6 +198,14 @@ DeveloperPanel::DeveloperPanel(QWidget* parent) : QFrame(parent)
     std::system("am start com.gmd.hidesoftkeys/com.gmd.hidesoftkeys.MainActivity");
   });  
 
+
+  auto laserlevel_exe = new ButtonControl("laserlevelOpen", "Open","laserlevel을 실행 합니다.");
+  connect(softkey_exe, &ButtonControl::clicked, [=]() 
+  { 
+    std::system("am start com.goodappsoftware.laserlevel/com.goodappsoftware.activities.BrowseActivity");
+  });  
+
+
   for (auto btn : {car_interfaces, build_exe, finger_exe, android_exe, apk_exe, mixplorer_exe, tmapopen_exe, tmapclose_exe, softkey_exe}) {
     if (btn) {
      // layout()->addWidget(horizontal_line());
