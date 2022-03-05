@@ -200,13 +200,13 @@ DeveloperPanel::DeveloperPanel(QWidget* parent) : QFrame(parent)
 
 
   auto laserlevel_exe = new ButtonControl("laserlevelOpen", "Open","laserlevel을 실행 합니다.");
-  connect(softkey_exe, &ButtonControl::clicked, [=]() 
+  connect(laserlevel_exe, &ButtonControl::clicked, [=]() 
   { 
     std::system("am start com.goodappsoftware.laserlevel/com.goodappsoftware.activities.BrowseActivity");
   });  
 
 
-  for (auto btn : {car_interfaces, build_exe, finger_exe, android_exe, apk_exe, mixplorer_exe, tmapopen_exe, tmapclose_exe, softkey_exe}) {
+  for (auto btn : {car_interfaces, build_exe, finger_exe, android_exe, apk_exe, mixplorer_exe, tmapopen_exe, tmapclose_exe, softkey_exe, laserlevel_exe}) {
     if (btn) {
      // layout()->addWidget(horizontal_line());
       connect(parent, SIGNAL(offroadTransition(bool)), btn, SLOT(setEnabled(bool)));
