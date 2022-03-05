@@ -63,8 +63,8 @@ class CarInterface(CarInterfaceBase):
       ret.minSteerSpeed = 1 * CV.KPH_TO_MS
 
       ret.lateralTuning.pid.kf = 0.000005
-      ret.lateralTuning.pid.kpBP, ret.lateralTuning.pid.kpV = [[0.], [0.15]]
-      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kiV = [[0.], [0.01]]
+      ret.lateralTuning.pid.kpBP, ret.lateralTuning.pid.kpV = [[0.], [0.25]]
+      ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kiV = [[0.], [0.05]]
 
       """
       ret.lateralTuning.init('lqr')
