@@ -196,6 +196,8 @@ DeveloperPanel::DeveloperPanel(QWidget* parent) : QFrame(parent)
   connect(softkey_exe, &ButtonControl::clicked, [=]() 
   { 
     std::system("am start com.gmd.hidesoftkeys/com.gmd.hidesoftkeys.MainActivity");
+
+    // com.moon.adroid.level.BubbleApplication
   });  
 
 
