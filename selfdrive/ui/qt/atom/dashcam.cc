@@ -216,7 +216,8 @@ void OnDashCam::start_capture()
   else 
   {
    // snprintf(cmd,sizeof(cmd),"screenrecord --size 1280x720 --bit-rate 4000000 %s/%s&",videos_dir,filename);
-    snprintf(cmd, sizeof(cmd), "screenrecord --size 1280x720 --bit-rate 5000000 %s/%s&", videos_dir, filename);
+    //snprintf(cmd, sizeof(cmd), "screenrecord --size 1280x720 --bit-rate 5000000 %s/%s&", videos_dir, filename);
+    snprintf(cmd, sizeof(cmd), "screenrecord --size 1164x874 --bit-rate 5000000 %s/%s&", videos_dir, filename);
     //snprintf(cmd,sizeof(cmd),"screenrecord --size 960x540 --bit-rate 5000000 %s/%s&",videos_dir,filename);
   }
   strcpy(filenames[captureNum], filename);
