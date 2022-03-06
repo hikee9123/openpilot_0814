@@ -113,10 +113,11 @@ void CameraBuf::init(cl_device_id device_id, cl_context context, CameraState *s,
   rgb_width = ci->frame_width;
   rgb_height = ci->frame_height;
 
+
   if (!Hardware::TICI() && ci->bayer) {
     // debayering does a 2x downscale
-    rgb_width = ci->frame_width / 2;
-    rgb_height = ci->frame_height / 2;
+    rgb_width = ci->frame_width; //  / 2;
+    rgb_height = ci->frame_height; // / 2;
   }
 
   yuv_transform = get_model_yuv_transform(ci->bayer);
@@ -262,9 +263,9 @@ static kj::Array<capnp::byte> yuv420_to_jpeg(const CameraBuf *b, int thumbnail_w
   uint8_t *v_plane = u_plane + (thumbnail_width * thumbnail_height) / 4;
   {
     int result = libyuv::I420Scale(
-        b->cur_yuv_buf->y, b->rgb_width, b->cur_yuv_buf->u, b->rgb_width / 2, b->cur_yuv_buf->v, b->rgb_width / 2,
+        b->cur_yuv_buf->y, b->rgb_width, b->cur_yuv_buf->u, b->rgb_width, b->cur_yuv_buf->v, b->rgb_width,
         b->rgb_width, b->rgb_height,
-        y_plane, thumbnail_width, u_plane, thumbnail_width / 2, v_plane, thumbnail_width / 2,
+        y_plane, thumbnail_width, u_plane, thumbnail_width , v_plane, thumbnail_width,
         thumbnail_width, thumbnail_height, libyuv::kFilterNone);
     if (result != 0) {
       LOGE("Generate YUV thumbnail failed.");
@@ -323,7 +324,7 @@ static kj::Array<capnp::byte> yuv420_to_jpeg(const CameraBuf *b, int thumbnail_w
 }
 
 static void publish_thumbnail(PubMaster *pm, const CameraBuf *b) {
-  auto thumbnail = yuv420_to_jpeg(b, b->rgb_width / 4, b->rgb_height / 4);
+  auto thumbnail = yuv420_to_jpeg(b, b->rgb_width , b->rgb_height );
   if (thumbnail.size() == 0) return;
 
   MessageBuilder msg;
