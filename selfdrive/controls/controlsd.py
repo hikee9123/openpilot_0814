@@ -183,7 +183,11 @@ class Controls:
 
     # atom
     self.openpilot_mode = 10
-    self.OpkrLiveSteerRatio = params.get("OpkrLiveSteerRatio")
+    LiveSteerRatio = params.get("OpkrLiveSteerRatio")
+    if LiveSteerRatio is not None:
+      self.OpkrLiveSteerRatio = int(LiveSteerRatio)
+    else:
+      self.OpkrLiveSteerRatio = 0    
 
   def update_modelToSteerRatio(self, learnerSteerRatio ):
     steerRatio = learnerSteerRatio
@@ -504,7 +508,8 @@ class Controls:
       steerRatio = self.update_modelToSteerRatio( params.steerRatio )
       sr = max(steerRatio, 5.0)
 
-    print('sr={} self.OpkrLiveSteerRatio={}'.format(sr, self.OpkrLiveSteerRatio) )
+    if (self.sm.frame % int(50. / DT_CTRL) == 0):
+      print('sr={} self.OpkrLiveSteerRatio={}'.format(sr, self.OpkrLiveSteerRatio) )
 
     self.VM.update_params(x, sr)
 

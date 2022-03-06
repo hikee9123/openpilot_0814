@@ -116,7 +116,7 @@ def main() -> NoReturn:
 
         if first_run:
           cloudlog.info(f"Resetting panda {panda.get_usb_serial()}")
-          panda.reset()
+          #panda.reset()
 
       # sort pandas to have deterministic order
       pandas.sort(key=cmp_to_key(panda_sort_cmp))
