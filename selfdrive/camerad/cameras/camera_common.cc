@@ -115,8 +115,8 @@ void CameraBuf::init(cl_device_id device_id, cl_context context, CameraState *s,
 
   if (!Hardware::TICI() && ci->bayer) {
     // debayering does a 2x downscale
-    rgb_width = ci->frame_width / 2;
-    rgb_height = ci->frame_height / 2;
+    rgb_width = ci->frame_width; //  / 2;
+    rgb_height = ci->frame_height; // / 2;
   }
 
   yuv_transform = get_model_yuv_transform(ci->bayer);
