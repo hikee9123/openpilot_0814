@@ -502,14 +502,17 @@ class Controls:
 
     
      # atom
+    SteerRatioMsg = 'auto'
     if self.OpkrLiveSteerRatio == 2:  # 수동(고정)
+      SteerRatioMsg = 'Manual'
       sr = max(self.CP.steerRatio, 5.0)
     elif self.OpkrLiveSteerRatio == 1:  # 반학습
+      SteerRatioMsg = 'half'
       steerRatio = self.update_modelToSteerRatio( params.steerRatio )
       sr = max(steerRatio, 5.0)
 
     if (self.sm.frame % int(50. / DT_CTRL) == 0):
-      print('sr={} self.OpkrLiveSteerRatio={}'.format(sr, self.OpkrLiveSteerRatio) )
+      print('sr={:.3f} self.OpkrLiveSteerRatio={}  {}'.format(sr, self.OpkrLiveSteerRatio), SteerRatioMsg )
 
     self.VM.update_params(x, sr)
 

@@ -107,7 +107,7 @@ class CarController():
     trace1.printf2( '{}'.format( str_log1 ) )
 
 
-    str_log1 = 'enable={:.2f}, active={:.2f} '.format( c.enabled, c.active )
+    str_log1 = 'aReqValue={:.2f}, active={:.2f} '.format( CS.aReqValue, c.active )
     trace1.printf3( '{}'.format( str_log1 ) )
   
 
