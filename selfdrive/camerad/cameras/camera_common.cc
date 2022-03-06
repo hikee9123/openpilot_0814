@@ -262,9 +262,9 @@ static kj::Array<capnp::byte> yuv420_to_jpeg(const CameraBuf *b, int thumbnail_w
   uint8_t *v_plane = u_plane + (thumbnail_width * thumbnail_height) / 4;
   {
     int result = libyuv::I420Scale(
-        b->cur_yuv_buf->y, b->rgb_width, b->cur_yuv_buf->u, b->rgb_width / 2, b->cur_yuv_buf->v, b->rgb_width / 2,
+        b->cur_yuv_buf->y, b->rgb_width, b->cur_yuv_buf->u, b->rgb_width, b->cur_yuv_buf->v, b->rgb_width,
         b->rgb_width, b->rgb_height,
-        y_plane, thumbnail_width, u_plane, thumbnail_width / 2, v_plane, thumbnail_width / 2,
+        y_plane, thumbnail_width, u_plane, thumbnail_width , v_plane, thumbnail_width,
         thumbnail_width, thumbnail_height, libyuv::kFilterNone);
     if (result != 0) {
       LOGE("Generate YUV thumbnail failed.");
@@ -323,7 +323,7 @@ static kj::Array<capnp::byte> yuv420_to_jpeg(const CameraBuf *b, int thumbnail_w
 }
 
 static void publish_thumbnail(PubMaster *pm, const CameraBuf *b) {
-  auto thumbnail = yuv420_to_jpeg(b, b->rgb_width / 4, b->rgb_height / 4);
+  auto thumbnail = yuv420_to_jpeg(b, b->rgb_width , b->rgb_height );
   if (thumbnail.size() == 0) return;
 
   MessageBuilder msg;
