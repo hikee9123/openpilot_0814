@@ -675,8 +675,6 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
     else if( nTrafficSign == TS_PARK_CRACKDOWN ) traffic_sign = &img_img_space;  // 주정차단속
     else if( nTrafficSign == TS_LANE_CHANGE1 ) traffic_sign = &img_img_space;  // 차선변경금지시작
     else if( nTrafficSign == TS_ANE_CHANGE2 ) traffic_sign = &img_img_space;  // 차선변경금지종료
-    else if( nTrafficSign == TS_PARK_ZONE ) traffic_sign = &img_img_space;  // 주정차금지구간
-    else if( nTrafficSign == TS_RAILROAD  ) traffic_sign = &img_img_space; // 철길건널목
     else if( nTrafficSign == TS_LOAD_OVER ) traffic_sign = &img_img_space;  // 과적단속
     else if( nTrafficSign == TS_TRAFFIC_INFO ) traffic_sign = &img_img_space;  // 교통정보수집
     else if( nTrafficSign == TS_OVERTRAK ) traffic_sign = &img_img_space;  // 추월금지구간

@@ -46,8 +46,6 @@ typedef enum TrafficSign {
   TS_VARIABLE  = 195,  // 가변구간
   TS_LANE_CHANGE1  = 198,  // 차선변경금지시작
   TS_ANE_CHANGE2  = 199,  // 차선변경금지종료
-  TS_PARK_ZONE  = 129,  // 주정차금지구간
-  TS_RAILROAD  = 123,  // 철길건널목
   TS_CAMERA4  = 200,  // 단속구간(고정형 이동식)
   TS_CAMERA5  = 231,  // 단속(카메라, 신호위반)    
   TS_BUS_ONLY  = 246,  // 버스전용차로단속
