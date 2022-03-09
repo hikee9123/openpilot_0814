@@ -158,6 +158,9 @@ static void update_state(UIState *s) {
         auto accel = sensor.getAcceleration().getV();
         if (accel.totalSize().wordCount) { // TODO: sometimes empty lists are received. Figure out why
           scene.accel_sensor = accel[2];
+
+          scene.scr.accel_prob[0] = atan(accel[2]/accel[0]) * (180 / M_PI); // back and forth
+          scene.scr.accel_prob[1] = atan(accel[1]/accel[0]) * (180 / M_PI); // right and left          
         }
       } else if (sensor.which() == cereal::SensorEventData::GYRO_UNCALIBRATED) {
         auto gyro = sensor.getGyroUncalibrated().getV();
@@ -167,6 +170,9 @@ static void update_state(UIState *s) {
       }
     }
   }
+
+
+
   if (!Hardware::TICI() && sm.updated("roadCameraState")) {
     auto camera_state = sm["roadCameraState"].getRoadCameraState();
 
@@ -236,6 +242,9 @@ static void update_state(UIState *s) {
    {
     scene.lateralPlan = sm["lateralPlan"].getLateralPlan();
    } 
+
+
+
 }
 
 void ui_update_params(UIState *s) {

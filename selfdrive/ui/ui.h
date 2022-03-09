@@ -142,7 +142,8 @@ typedef struct UIScene {
      int  brightness;
      int  nVolumeBoost;
      int  awake;
-     int  sidebar;     
+     int  sidebar;
+     float accel_prob[2];     
   } scr;
 
 
