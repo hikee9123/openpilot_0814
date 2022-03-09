@@ -78,6 +78,7 @@ private:
   QPixmap img_car_right;
   QPixmap img_speed_bump;
   QPixmap img_bus_only;
+  QPixmap img_school_zone;
 
 
 

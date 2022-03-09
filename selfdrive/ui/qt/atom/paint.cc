@@ -48,6 +48,7 @@ OnPaint::OnPaint(QWidget *parent) : QWidget(parent)
   img_car_right= QPixmap("../assets/addon/navigation/img_car_right.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   img_speed_bump= QPixmap("../assets/addon/navigation/img_speed_bump.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   img_bus_only= QPixmap("../assets/addon/navigation/img_bus_only.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  img_school_zone= QPixmap("../assets/addon/navigation/img_S30_speedahead.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
   connect(this, &OnPaint::valueChanged, [=] { update(); });
 
@@ -651,9 +652,33 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
 
     if( nTrafficSign == TS_BEND_ROAD ) traffic_sign = &img_traf_turn;  // 굽은도로
     else if( nTrafficSign == TS_VARIABLE ) traffic_sign = &img_speed_var;  // 가변 단속. ( by opkr)
-    else if( nTrafficSign == TS_BUS_ONLY ) traffic_sign = &img_traf_turn;  // 버스전용차로단속
+    else if( nTrafficSign == TS_BUS_ONLY ) traffic_sign = &img_bus_only;  // 버스전용차로단속
     else if( nTrafficSign == TS_BUMP_ROAD ) traffic_sign = &img_speed_bump;  // 과속방지턱
-    else if( speedLimit <= 10 )  traffic_sign = NULL;
+    else if( nTrafficSign == TS_SCHOOL_ZONE1 ) traffic_sign = &img_school_zone;  // 스클존
+    else if( nTrafficSign == TS_SCHOOL_ZONE2 ) traffic_sign = &img_school_zone;  // 스클존
+    else if( nTrafficSign == TS_CURVE_RIGHT ) traffic_sign = &img_img_space;  // 오른쪽 급커브
+    else if( nTrafficSign == TS_CURVE_LEFT ) traffic_sign = &img_img_space;  // 왼쪽 급커브
+    else if( nTrafficSign == TS_NARROW_ROAD ) traffic_sign = &img_img_space; // 좁아지는 도로
+    else if( nTrafficSign == TS_RAIL_ROAD ) traffic_sign = &img_img_space;   // 철길건널목
+    else if( nTrafficSign == TS_PARK_CRACKDOWN ) traffic_sign = &img_img_space;  // 주정차단속
+    else if( nTrafficSign == TS_INTERVAL ) traffic_sign = &img_img_space;  // 구간 단속
+    else if( nTrafficSign == TS_LANE_CHANGE1 ) traffic_sign = &img_img_space;  // 차선변경금지시작
+    else if( nTrafficSign == TS_ANE_CHANGE2 ) traffic_sign = &img_img_space;  // 차선변경금지종료
+    else if( nTrafficSign == TS_PARK_ZONE ) traffic_sign = &img_img_space;  // 주정차금지구간
+    else if( nTrafficSign == TS_RAILROAD  ) traffic_sign = &img_img_space; // 철길건널목
+    else if( nTrafficSign == TS_LOAD_OVER ) traffic_sign = &img_img_space;  // 과적단속
+    else if( nTrafficSign == TS_TRAFFIC_INFO ) traffic_sign = &img_img_space;  // 교통정보수집
+    else if( nTrafficSign == TS_OVERTRAK ) traffic_sign = &img_img_space;  // 추월금지구간
+    else if( nTrafficSign == TS_SHOULDER  ) traffic_sign = &img_img_space; // 갓길단속
+    else if( nTrafficSign == TS_LOAD_POOR  ) traffic_sign = &img_img_space;  // 적재불량단속  
+    
+    //else if( nTrafficSign == TS_CAMERA1 ) traffic_sign = &img_img_space;// 단속카메라(신호위반카메라)  
+    //else if( nTrafficSign == TS_CAMERA2_BUS ) traffic_sign = &img_img_space; // 고정식  - 호야
+    //else if( nTrafficSign == TS_CAMERA3 ) traffic_sign = &img_img_space; // 경찰차(이동식)  - 호야
+    //else if( nTrafficSign == TS_CAMERA4 ) traffic_sign = &img_img_space; // 단속구간(고정형 이동식)
+    //else if( nTrafficSign == TS_CAMERA5  ) traffic_sign = &img_img_space;  // 단속(카메라, 신호위반)    
+
+    else if( speedLimit <= 10 )  traffic_sign = &img_img_space;
     else if( speedLimit <= 30 )  traffic_sign = &img_speed_30;
     else if( speedLimit <= 40 )  traffic_sign = &img_speed_40;
     else if( speedLimit <= 50 )  traffic_sign = &img_speed_50;
