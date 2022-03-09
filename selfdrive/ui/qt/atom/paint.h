@@ -80,6 +80,19 @@ private:
   QPixmap img_bus_only;
   QPixmap img_school_zone;
 
+  QPixmap img_curve_right;
+  QPixmap img_curve_left;
+  QPixmap img_narrow_road;
+  QPixmap img_rail_road;
+
+  QPixmap img_60_section;
+  QPixmap img_70_section;
+  QPixmap img_80_section;
+  QPixmap img_90_section;
+  QPixmap img_100_section;
+  QPixmap img_110_section;
+
+
 
 
 // navi

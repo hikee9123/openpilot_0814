@@ -50,6 +50,18 @@ OnPaint::OnPaint(QWidget *parent) : QWidget(parent)
   img_bus_only= QPixmap("../assets/addon/navigation/img_bus_only.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   img_school_zone= QPixmap("../assets/addon/navigation/img_S30_speedahead.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
+  img_curve_right= QPixmap("../assets/addon/navigation/img_curve_right.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  img_curve_left= QPixmap("../assets/addon/navigation/img_curve_left.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  img_narrow_road= QPixmap("../assets/addon/navigation/img_narrow_road.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  img_rail_road= QPixmap("../assets/addon/navigation/img_rail_road.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+  img_60_section= QPixmap("../assets/addon/navigation/img_60_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  img_70_section= QPixmap("../assets/addon/navigation/img_70_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  img_80_section= QPixmap("../assets/addon/navigation/img_80_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  img_90_section= QPixmap("../assets/addon/navigation/img_90_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  img_100_section= QPixmap("../assets/addon/navigation/img_100_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  img_110_section= QPixmap("../assets/addon/navigation/img_110_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
   connect(this, &OnPaint::valueChanged, [=] { update(); });
 
 
@@ -656,12 +668,11 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
     else if( nTrafficSign == TS_BUMP_ROAD ) traffic_sign = &img_speed_bump;  // 과속방지턱
     else if( nTrafficSign == TS_SCHOOL_ZONE1 ) traffic_sign = &img_school_zone;  // 스클존
     else if( nTrafficSign == TS_SCHOOL_ZONE2 ) traffic_sign = &img_school_zone;  // 스클존
-    else if( nTrafficSign == TS_CURVE_RIGHT ) traffic_sign = &img_img_space;  // 오른쪽 급커브
-    else if( nTrafficSign == TS_CURVE_LEFT ) traffic_sign = &img_img_space;  // 왼쪽 급커브
-    else if( nTrafficSign == TS_NARROW_ROAD ) traffic_sign = &img_img_space; // 좁아지는 도로
-    else if( nTrafficSign == TS_RAIL_ROAD ) traffic_sign = &img_img_space;   // 철길건널목
+    else if( nTrafficSign == TS_CURVE_RIGHT ) traffic_sign = &img_curve_right;  // 오른쪽 급커브
+    else if( nTrafficSign == TS_CURVE_LEFT ) traffic_sign = &img_curve_left;  // 왼쪽 급커브
+    else if( nTrafficSign == TS_NARROW_ROAD ) traffic_sign = &img_narrow_road; // 좁아지는 도로
+    else if( nTrafficSign == TS_RAIL_ROAD ) traffic_sign = &img_rail_road;   // 철길건널목
     else if( nTrafficSign == TS_PARK_CRACKDOWN ) traffic_sign = &img_img_space;  // 주정차단속
-    else if( nTrafficSign == TS_INTERVAL ) traffic_sign = &img_img_space;  // 구간 단속
     else if( nTrafficSign == TS_LANE_CHANGE1 ) traffic_sign = &img_img_space;  // 차선변경금지시작
     else if( nTrafficSign == TS_ANE_CHANGE2 ) traffic_sign = &img_img_space;  // 차선변경금지종료
     else if( nTrafficSign == TS_PARK_ZONE ) traffic_sign = &img_img_space;  // 주정차금지구간
@@ -673,27 +684,41 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
     else if( nTrafficSign == TS_LOAD_POOR  ) traffic_sign = &img_img_space;  // 적재불량단속  
     
     //else if( nTrafficSign == TS_CAMERA1 ) traffic_sign = &img_img_space;// 단속카메라(신호위반카메라)  
-    //else if( nTrafficSign == TS_CAMERA2_BUS ) traffic_sign = &img_img_space; // 고정식  - 호야
+    else if( nTrafficSign == TS_CAMERA2_BUS ) traffic_sign = &img_bus_only; // 고정식  - 호야
     //else if( nTrafficSign == TS_CAMERA3 ) traffic_sign = &img_img_space; // 경찰차(이동식)  - 호야
     //else if( nTrafficSign == TS_CAMERA4 ) traffic_sign = &img_img_space; // 단속구간(고정형 이동식)
     //else if( nTrafficSign == TS_CAMERA5  ) traffic_sign = &img_img_space;  // 단속(카메라, 신호위반)    
+    else if( speedLimit ) 
+    {
+      if( nTrafficSign == TS_INTERVAL  )   // 구간 단속
+      {
+        if( speedLimit <= 30 )  traffic_sign = &img_speed_30;
+        else if( speedLimit <= 40 )  traffic_sign = &img_speed_40;
+        else if( speedLimit <= 50 )  traffic_sign = &img_speed_50;
+        else if( speedLimit <= 60 )  traffic_sign = &img_60_section;
+        else if( speedLimit <= 70 )  traffic_sign = &img_70_section;
+        else if( speedLimit <= 80 )  traffic_sign = &img_80_section;
+        else if( speedLimit <= 90 )  traffic_sign = &img_90_section;
+        else if( speedLimit <= 100 )  traffic_sign = &img_100_section;
+        else if( speedLimit <= 110 )  traffic_sign = &img_110_section;  
+      }
+      else
+      {
+        if(  speedLimit <= 30 )  traffic_sign = &img_speed_30;
+        else if( speedLimit <= 40 )  traffic_sign = &img_speed_40;
+        else if( speedLimit <= 50 )  traffic_sign = &img_speed_50;
+        else if( speedLimit <= 60 )  traffic_sign = &img_speed_60;
+        else if( speedLimit <= 70 )  traffic_sign = &img_speed_70;
+        else if( speedLimit <= 80 )  traffic_sign = &img_speed_80;
+        else if( speedLimit <= 90 )  traffic_sign = &img_speed_90;
+        else if( speedLimit <= 100 )  traffic_sign = &img_speed_100;
+        else if( speedLimit <= 110 )  traffic_sign = &img_speed_110;
+      }
+    }
 
-    else if( speedLimit <= 10 )  traffic_sign = &img_img_space;
-    else if( speedLimit <= 30 )  traffic_sign = &img_speed_30;
-    else if( speedLimit <= 40 )  traffic_sign = &img_speed_40;
-    else if( speedLimit <= 50 )  traffic_sign = &img_speed_50;
-    else if( speedLimit <= 60 )  traffic_sign = &img_speed_60;
-    else if( speedLimit <= 70 )  traffic_sign = &img_speed_70;
-    else if( speedLimit <= 80 )  traffic_sign = &img_speed_80;
-    else if( speedLimit <= 90 )  traffic_sign = &img_speed_90;
-    else if( speedLimit <= 100 )  traffic_sign = &img_speed_100;
-    else if( speedLimit <= 110 )  traffic_sign = &img_speed_110;
 
   
-    if( nTrafficSign && traffic_sign == NULL )
-    {
-      traffic_sign = &img_img_space;
-    }
+
 
 
     int img_size1 = img_size;   // 472
@@ -738,48 +763,28 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
       p.drawText( rect, Qt::AlignCenter, szSLD );//|Qt::AlignRight));
     }
 
+
+
     // 2. image
     if( traffic_sign  )
     {
       p.drawPixmap(img_xpos , img_ypos, *traffic_sign);
-     // p.drawPixmap( QRect(img_xpos, img_ypos, img_size1, img_size1), *traffic_sign);
+
+      configFont( p, "Open Sans",  26, "SemiBold");
+      szSLD.sprintf("%d", nTrafficSign );
+      drawText( p, img_xpos + int(img_size1*0.5), img_ypos+25, szSLD );     
     }
-
-    const char  *szSign = NULL;
-
-    if( nTrafficSign == TS_VARIABLE ) szSign = "가변구간";
-    else if( nTrafficSign == TS_BEND_ROAD ) szSign = "굽은도로";
-    else if( nTrafficSign == TS_BUS_ONLY ) szSign = "버스전용차로";
-    else if( nTrafficSign == TS_BUMP_ROAD ) szSign = "과속방지턱";
-    else if( nTrafficSign == TS_CAMERA1 ) szSign = "신호위반";
-    else if( nTrafficSign == TS_CAMERA2_BUS ) szSign = "버스";
-    else if( nTrafficSign == TS_CAMERA3 ) szSign = "경찰차";
-    else if( nTrafficSign == TS_CAMERA4 ) szSign = "이동식";
-    else if( nTrafficSign == TS_CAMERA5 ) szSign = "카메라";  
-    else if( nTrafficSign == TS_INTERVAL ) szSign = "구간단속";
-    else if( nTrafficSign == TS_CURVE_RIGHT ) szSign = "우측커브";
-    else if( nTrafficSign == TS_CURVE_LEFT ) szSign = "좌측커브";
-    else if( nTrafficSign == TS_RAIL_ROAD ) szSign = "철길건널목";
-    else if( nTrafficSign == TS_PARK_CRACKDOWN ) szSign = "주정차금지";
-    else if( nTrafficSign == TS_SCHOOL_ZONE1 ) szSign = "스쿨존#1";
-    else if( nTrafficSign == TS_SCHOOL_ZONE2 ) szSign = "스쿨존#2";
-    else if( nTrafficSign == TS_NARROW_ROAD ) szSign = "좁아지는도로";
-    else if( nTrafficSign == TS_OVERTRAK ) szSign = "추월금지구간";
-    else if( nTrafficSign == TS_SHOULDER ) szSign = "갓길단속";
-    else if( nTrafficSign == TS_TRAFFIC_INFO ) szSign = "교통정보";
-
-
-    configFont( p, "Open Sans",  26, "SemiBold");
-    if( szSign )
+    else if( nTrafficSign > 0 )
     {
-      QString  strSign = QString(szSign);
-      drawText( p, img_xpos + int(img_size1*0.5), img_ypos+25, strSign );
-    }
-    else
-    {
+      traffic_sign = &img_img_space;
+      p.drawPixmap(img_xpos , img_ypos, *traffic_sign);
+
+      configFont( p, "Open Sans",  40, "SemiBold");
       szSLD.sprintf("%d", nTrafficSign );
       drawText( p, img_xpos + int(img_size1*0.5), img_ypos + int(img_size1*0.5), szSLD );
     }
+
+
 }
 
 // const char * str = text.toStdString().c_str();
