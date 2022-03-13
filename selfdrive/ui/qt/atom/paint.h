@@ -63,6 +63,9 @@ private:
   QPixmap img_direction;
   QPixmap img_tire_pressure;
 
+  QPixmap img_speed;
+  QPixmap img_section;
+
   QPixmap img_speed_30;
   QPixmap img_speed_40;
   QPixmap img_speed_50;
@@ -72,6 +75,14 @@ private:
   QPixmap img_speed_90;
   QPixmap img_speed_100;
   QPixmap img_speed_110;
+
+  QPixmap img_60_section;
+  QPixmap img_70_section;
+  QPixmap img_80_section;
+  QPixmap img_90_section;
+  QPixmap img_100_section;
+  QPixmap img_110_section; 
+
   QPixmap img_speed_var;
   QPixmap img_img_space;
   QPixmap img_car_left;
@@ -85,12 +96,7 @@ private:
   QPixmap img_narrow_road;
   QPixmap img_rail_road;
 
-  QPixmap img_60_section;
-  QPixmap img_70_section;
-  QPixmap img_80_section;
-  QPixmap img_90_section;
-  QPixmap img_100_section;
-  QPixmap img_110_section;
+
 
 
 
