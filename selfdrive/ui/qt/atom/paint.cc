@@ -36,23 +36,6 @@ OnPaint::OnPaint(QWidget *parent) : QWidget(parent)
   img_speed = QPixmap("../assets/addon/navigation/img_speed.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   img_section = QPixmap("../assets/addon/navigation/img_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-  img_speed_30= QPixmap("../assets/addon/navigation/img_30_speedahead.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_speed_40= QPixmap("../assets/addon/navigation/img_40_speedahead.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_speed_50= QPixmap("../assets/addon/navigation/img_50_speedahead.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_speed_60= QPixmap("../assets/addon/navigation/img_60_speedahead.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_speed_70= QPixmap("../assets/addon/navigation/img_70_speedahead.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_speed_80= QPixmap("../assets/addon/navigation/img_80_speedahead.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_speed_90= QPixmap("../assets/addon/navigation/img_90_speedahead.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_speed_100= QPixmap("../assets/addon/navigation/img_100_speedahead.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_speed_110= QPixmap("../assets/addon/navigation/img_110_speedahead.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-  img_60_section= QPixmap("../assets/addon/navigation/img_60_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_70_section= QPixmap("../assets/addon/navigation/img_70_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_80_section= QPixmap("../assets/addon/navigation/img_80_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_90_section= QPixmap("../assets/addon/navigation/img_90_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_100_section= QPixmap("../assets/addon/navigation/img_100_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  img_110_section= QPixmap("../assets/addon/navigation/img_110_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
 
   img_speed_var= QPixmap("../assets/addon/navigation/img_var_speedahead.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   img_img_space= QPixmap("../assets/addon/navigation/img_space.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -698,29 +681,10 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
       if( nTrafficSign == TS_INTERVAL  )   // 구간 단속
       {
         traffic_sign = &img_section;
-
-        //if( speedLimit <= 30 )  traffic_sign = &img_speed_30;
-        //else if( speedLimit <= 40 )  traffic_sign = &img_speed_40;
-        //else if( speedLimit <= 50 )  traffic_sign = &img_speed_50;
-        //else if( speedLimit <= 60 )  traffic_sign = &img_60_section;
-        //else if( speedLimit <= 70 )  traffic_sign = &img_70_section;
-        //else if( speedLimit <= 80 )  traffic_sign = &img_80_section;
-        //else if( speedLimit <= 90 )  traffic_sign = &img_90_section;
-        //else if( speedLimit <= 100 )  traffic_sign = &img_100_section;
-        //else if( speedLimit <= 110 )  traffic_sign = &img_110_section;  
       }
       else
       {
         traffic_sign = &img_speed;
-        //if(  speedLimit <= 30 )  traffic_sign = &img_speed_30;
-        //else if( speedLimit <= 40 )  traffic_sign = &img_speed_40;
-        //else if( speedLimit <= 50 )  traffic_sign = &img_speed_50;
-        //else if( speedLimit <= 60 )  traffic_sign = &img_speed_60;
-        //else if( speedLimit <= 70 )  traffic_sign = &img_speed_70;
-        //else if( speedLimit <= 80 )  traffic_sign = &img_speed_80;
-        //else if( speedLimit <= 90 )  traffic_sign = &img_speed_90;
-        //else if( speedLimit <= 100 )  traffic_sign = &img_speed_100;
-        //else if( speedLimit <= 110 )  traffic_sign = &img_speed_110;
       }
     }
 
@@ -784,10 +748,9 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
 
       if( speedLimit )
       {
-        p.setPen( QColor(0, 0, 0, 255) ); 
         configFont( p, "Open Sans",  40, "SemiBold");
         szSLD.sprintf("%.0f", speedLimit );
-        drawText( p, img_xpos + int(img_size1*0.5), img_ypos + int(img_size1*0.5), szSLD );  
+        drawText( p, img_xpos + int(img_size1*0.5), img_ypos + int(img_size1*0.5), szSLD, QColor(0,0,0,255) );  
       }       
     }
     else if( nTrafficSign > 0 )
@@ -809,10 +772,10 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
 
 void OnPaint::ui_draw_navi( QPainter &p ) 
 {
-  float speedLimit = 30;// scene->liveNaviData.getSpeedLimit();  
-  float speedLimitAheadDistance = 100;// scene->liveNaviData.getArrivalDistance(); // getSpeedLimitDistance();  
-  float nTrafficSign = TS_INTERVAL;// scene->liveNaviData.getSafetySign();
-  int   mapValid = 1;// scene->liveNaviData.getMapValid();
+  float speedLimit =  scene->liveNaviData.getSpeedLimit();  
+  float speedLimitAheadDistance =  scene->liveNaviData.getArrivalDistance(); // getSpeedLimitDistance();  
+  float nTrafficSign =  scene->liveNaviData.getSafetySign();
+  int   mapValid =  scene->liveNaviData.getMapValid();
 
 
   if( mapValid )

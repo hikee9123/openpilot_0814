@@ -66,22 +66,6 @@ private:
   QPixmap img_speed;
   QPixmap img_section;
 
-  QPixmap img_speed_30;
-  QPixmap img_speed_40;
-  QPixmap img_speed_50;
-  QPixmap img_speed_60;
-  QPixmap img_speed_70;
-  QPixmap img_speed_80;
-  QPixmap img_speed_90;
-  QPixmap img_speed_100;
-  QPixmap img_speed_110;
-
-  QPixmap img_60_section;
-  QPixmap img_70_section;
-  QPixmap img_80_section;
-  QPixmap img_90_section;
-  QPixmap img_100_section;
-  QPixmap img_110_section; 
 
   QPixmap img_speed_var;
   QPixmap img_img_space;
