@@ -780,11 +780,16 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
 
       configFont( p, "Open Sans",  26, "SemiBold");
       szSLD.sprintf("%d", nTrafficSign );
-      drawText( p, img_xpos + int(img_size1*0.5), img_ypos+25, szSLD );     
+      drawText( p, img_xpos + int(img_size1*0.5), img_ypos+25, szSLD ); 
+
+      if( speedLimit )
+      {
+        configFont( p, "Open Sans",  40, "SemiBold");
+        szSLD.sprintf("%.0f", speedLimit );
+        drawText( p, img_xpos + int(img_size1*0.5), img_ypos + int(img_size1*0.5), szSLD );  
+      }       
     }
-    
-    
-     if( nTrafficSign > 0 )
+    else if( nTrafficSign > 0 )
     {
       traffic_sign = &img_img_space;
       p.drawPixmap(img_xpos , img_ypos, *traffic_sign);
@@ -793,12 +798,8 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
       szSLD.sprintf("%d", nTrafficSign );
       drawText( p, img_xpos + int(img_size1*0.5), img_ypos + int(img_size1*0.5), szSLD );
     }
-    else if( speedLimit )
-    {
-      configFont( p, "Open Sans",  40, "SemiBold");
-      szSLD.sprintf("%.0f", speedLimit );
-      drawText( p, img_xpos + int(img_size1*0.5), img_ypos + int(img_size1*0.5), szSLD );  
-    }
+    
+
 
 
 }
