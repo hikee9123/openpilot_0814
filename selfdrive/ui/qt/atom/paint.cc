@@ -796,7 +796,7 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
     else if( speedLimit )
     {
       configFont( p, "Open Sans",  40, "SemiBold");
-      szSLD.sprintf("%d", speedLimit );
+      szSLD.sprintf("%.0f", speedLimit );
       drawText( p, img_xpos + int(img_size1*0.5), img_ypos + int(img_size1*0.5), szSLD );  
     }
 
