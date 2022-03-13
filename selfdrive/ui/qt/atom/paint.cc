@@ -726,7 +726,7 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
 
       int txt_size = int(img_size1*0.8);
       int txt_xpos = img_xpos + 20;  
-      int txt_ypos = img_ypos + img_size1 - 20;
+      int txt_ypos = img_ypos + img_size1 - 15;
       QRect rect( txt_xpos, txt_ypos, txt_size, 60 );  
 
       p.setPen(QPen(QColor(0xff, 0xff, 0xff, 100), 5));
@@ -751,7 +751,7 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
 
       if( speedLimit )
       {
-        configFont( p, "Open Sans",  81, "SemiBold");
+        configFont( p, "Open Sans",  85, "SemiBold");
         szSLD.sprintf("%.0f", speedLimit );
         drawText( p, img_xpos + int(img_size1*0.5), img_ypos + int(img_size1*0.8), szSLD, QColor(0,0,0,255) );  
       }       
@@ -761,17 +761,12 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
       traffic_sign = &img_img_space;
       p.drawPixmap(img_xpos , img_ypos, *traffic_sign);
 
-      configFont( p, "Open Sans",  40, "SemiBold");
+      configFont( p, "Open Sans",  50, "SemiBold");
       szSLD.sprintf("%d", nTrafficSign );
-      drawText( p, img_xpos + int(img_size1*0.5), img_ypos + int(img_size1*0.5), szSLD );
+      drawText( p, img_xpos + int(img_size1*0.5), img_ypos + int(img_size1*0.5), szSLD, QColor(0,0,0,255) );
     }
-    
-
-
-
 }
 
-// const char * str = text.toStdString().c_str();
 
 void OnPaint::ui_draw_navi( QPainter &p ) 
 {
