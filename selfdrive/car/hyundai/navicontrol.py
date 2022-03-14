@@ -18,7 +18,7 @@ class NaviControl():
   def __init__(self, p = None ):
     self.p = p
     
-    self.sm = messaging.SubMaster(['liveNaviData','lateralPlan','radarState']) 
+    self.sm = messaging.SubMaster(['liveNaviData','lateralPlan','radarState','modelV2']) 
 
     self.btn_cnt = 0
     self.seq_command = 0
@@ -31,6 +31,7 @@ class NaviControl():
 
     self.gasPressed_time = 0
     self.gasWait_time = 0
+
 
 
 
@@ -135,6 +136,21 @@ class NaviControl():
       if nVDelta > 20:
         cruise_set_speed_kph = CS.clu_Vanz + 10
     return  cruise_set_speed_kph
+
+  def get_cut_in_car(self):
+      cut_in = 0
+      model_v2 = self.sm['modelV2']
+
+      #leads = model_v2.leads
+      leads_v3 = model_v2.leadsV3
+
+      if len(leads_v3) > 1:
+        if leads_v3[1].prob > 0.5:
+          cut_in = leads_v3[1].x[0] - leads_v3[0].x[0]  # > 3
+      
+      return cut_in
+
+
 
 
   def get_navi_speed(self, sm, CS, cruiseState_speed ):

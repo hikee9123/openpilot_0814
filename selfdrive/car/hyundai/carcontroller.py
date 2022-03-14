@@ -101,13 +101,14 @@ class CarController():
 
 
   def update_debug(self, CS, c ):
+    cut_in = self.NC.get_cut_in_car()
     actuators = c.actuators
     vFuture = c.hudControl.vFuture * 3.6
     str_log1 = 'MODE={:.0f} vF={:.1f} gas={:.2f}'.format( CS.cruise_set_mode, vFuture, CS.out.gas )
     trace1.printf2( '{}'.format( str_log1 ) )
 
 
-    str_log1 = 'aReqValue={:.2f}, active={:.2f} '.format( CS.aReqValue, c.active )
+    str_log1 = 'aReqValue={:.2f}, cut_in={:.2f} '.format( CS.aReqValue, cut_in )
     trace1.printf3( '{}'.format( str_log1 ) )
   
 
