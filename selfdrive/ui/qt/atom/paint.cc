@@ -362,10 +362,21 @@ void OnPaint::bb_ui_draw_measures_right( QPainter &p, int bb_x, int bb_y, int bb
   //finally draw the frame
   bb_h += 20;
   m_param.bbh_right = bb_h;
-
-
 }
 
+QColor OnPaint::angleSteersColor( int angleSteers ) 
+{
+    QColor val_color = QColor(255, 255, 255, 200);
+
+    if( (angleSteers < -30) || (angleSteers > 30) ) {
+      val_color = QColor(255, 175, 3, 200);
+    }
+    if( (angleSteers < -55) || (angleSteers > 55) ) {
+      val_color = QColor(255, 0, 0, 200);
+    }
+
+    return val_color;
+}
 
 void OnPaint::bb_ui_draw_measures_left(QPainter &p, int bb_x, int bb_y, int bb_w ) 
 {
@@ -481,15 +492,16 @@ void OnPaint::bb_ui_draw_measures_left(QPainter &p, int bb_x, int bb_y, int bb_w
     QColor val_color = QColor(0, 255, 0, 200);
       //show Orange if more than 30 degrees
       //show red if  more than 50 degrees
-      if(((int)(m_param.angleSteers) < -30) || ((int)(m_param.angleSteers) > 30)) {
-        val_color = QColor(255, 175, 3, 200);
-      }
-      if(((int)(m_param.angleSteers) < -55) || ((int)(m_param.angleSteers) > 55)) {
-        val_color = QColor(255, 0, 0, 200);
-      }
+
+      val_color = angleSteersColor( (int)(m_param.angleSteers) );
+
       // steering is in degrees
       val_str.sprintf("%.1f",m_param.angleSteers);
-      uom_str = "";
+
+      // steering is in degrees des
+      uom_color = angleSteersColor( (int)(m_param.angleSteersDes) );
+      uom_str.sprintf("%.1f",m_param.angleSteersDes);
+
     bb_h +=bb_ui_draw_measure(p,  val_str, uom_str, "REAL STEER",
         bb_rx, bb_ry, bb_uom_dx,
         val_color, lab_color, uom_color,
@@ -501,27 +513,16 @@ void OnPaint::bb_ui_draw_measures_left(QPainter &p, int bb_x, int bb_y, int bb_w
   if( true )
   {
    // float angleSteersDes = scene->controls_state.getSteeringAngleDesiredDegDEPRECATED();  
-
+    uom_color = QColor(255, 255, 255, 200);
     QColor val_color = QColor(255, 255, 255, 200);
-    if( scene->controls_state.getEnabled() ) {
-      //show Orange if more than 6 degrees
-      //show red if  more than 12 degrees
-      if(((int)(m_param.angleSteersDes) < -30) || ((int)(m_param.angleSteersDes) > 30)) 
-      {
-        val_color = QColor(255, 255, 255, 200);
-      }
-      if( ((int)(m_param.angleSteersDes) < -50) || ((int)(m_param.angleSteersDes) > 50) ) 
-      {
-        val_color = QColor(255, 255, 255, 200);
-      }
-      // steering is in degrees
-      val_str.sprintf("%.1f",m_param.angleSteersDes);
-    } else {
-      val_str = "-";
-    }
 
-    uom_str = "";
-    bb_h +=bb_ui_draw_measure(p,  val_str, uom_str, "DESIR STEER",
+
+    //text3.sprintf("BF:%.1f   RL:%.1f°", , scene->scr.accel_prob[1] );
+
+    val_str.sprintf("%.1f", scene->scr.accel_prob[0]);  // BF
+    uom_str.sprintf("%.1f", scene->scr.accel_prob[1]);  // RL
+    //uom_str = "";
+    bb_h +=bb_ui_draw_measure(p,  val_str, uom_str, "angle",
       bb_rx, bb_ry, bb_uom_dx,
       val_color, lab_color, uom_color,
       value_fontSize, label_fontSize, uom_fontSize );
@@ -797,7 +798,7 @@ void OnPaint::ui_draw_debug1( QPainter &p )
   //p.setPen(Qt::NoPen);
   p.setBrush(QColor(0, 0, 0, 100));
   p.drawRoundedRect(rc, 20, 20); 
-  
+  p.setPen( QColor(0xff, 0xff, 0xff, 255) ); 
 
   QTextOption  textOpt =  QTextOption( Qt::AlignLeft );
   configFont( p, "Open Sans",  40, "Regular");
@@ -808,8 +809,8 @@ void OnPaint::ui_draw_debug1( QPainter &p )
   p.drawText( QRect(bb_x, bb_y+45, bb_w, 42), text3, textOpt );
 
 
-  text3.sprintf("BF:%.1f   RL:%.1f°", scene->scr.accel_prob[0], scene->scr.accel_prob[1] );
-  p.drawText( QRect(bb_x, 900, bb_w, 42), text3, textOpt );
+ // text3.sprintf("BF:%.1f   RL:%.1f°", scene->scr.accel_prob[0], scene->scr.accel_prob[1] );
+ // p.drawText( QRect(bb_x, 900, bb_w, 42), text3, textOpt );
 }
 
 

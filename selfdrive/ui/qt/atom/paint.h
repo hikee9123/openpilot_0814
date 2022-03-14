@@ -99,6 +99,7 @@ private:
   int    get_param( const std::string &key );
 // kegmen
 private:
+
   //void ui_draw_circle_image_rotation(const UIState *s, int center_x, int center_y, int radius, const char *image, NVGcolor color, float img_alpha, float angleSteers = 0);
   int  bb_ui_draw_measure(QPainter &p,  const QString &bb_value, const QString &bb_uom, const QString &bb_label,
     int bb_x, int bb_y, int bb_uom_dx,
@@ -109,6 +110,7 @@ private:
   void bb_ui_draw_measures_right(QPainter &p, int bb_x, int bb_y, int bb_w );
   void bb_ui_draw_measures_left(QPainter &p, int bb_x, int bb_y, int bb_w );
 
+  QColor angleSteersColor( int angleSteers );
   QColor get_tpms_color(float tpms);
   QString get_tpms_text(float tpms);
 
