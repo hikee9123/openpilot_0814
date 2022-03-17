@@ -19,9 +19,9 @@ CONTROL_N = 17
 CAR_ROTATION_RADIUS = 0.0
 
 # MAX_CURVATURE_RATES = 0.0006 * deg/s - 0.008
-# this corresponds to 80deg/s and 20deg/s steering angle in a toyota corolla
-MAX_CURVATURE_RATES = [0.000003, 0.03762194918267951, 0.003441203371932992]
-MAX_CURVATURE_RATE_SPEEDS = [0, 2.5, 35]
+# this corresponds to 80deg/s(0.03762194918267951) and 20deg/s steering angle in a toyota corolla
+MAX_CURVATURE_RATES = [0, 0.016, 0.003441203371932992]
+MAX_CURVATURE_RATE_SPEEDS = [0, 10, 35]
 
 CRUISE_LONG_PRESS = 50
 CRUISE_NEAREST_FUNC = {
