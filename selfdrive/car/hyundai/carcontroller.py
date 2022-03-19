@@ -17,8 +17,10 @@ import common.loger as trace1
 
 class CarController():
   def __init__(self, dbc_name, CP, VM):
+    self.CP = CP
     self.p = CarControllerParams(CP)
     self.packer = CANPacker(dbc_name)
+    self.frame = 0
 
     self.apply_steer_last = 0
     self.car_fingerprint = CP.carFingerprint
@@ -112,15 +114,15 @@ class CarController():
     trace1.printf3( '{}'.format( str_log1 ) )
   
 
-  def updateLongitudinal(self, can_sends,  c, CS, frame):
+  def updateLongitudinal(self, can_sends,  c, CS):
     enabled = c.enabled and CS.out.cruiseState.accActive
     actuators = c.actuators
     hud_speed = c.hudControl.setSpeed
     # tester present - w/ no response (keeps radar disabled)
-    if (frame % 100) == 0:
+    if (self.frame % 100) == 0:
         can_sends.append([0x7D0, 0, b"\x02\x3E\x80\x00\x00\x00\x00\x00", 0])
 
-    if frame % 2 == 0:
+    if self.frame % 2 == 0:
       lead_visible = False
       accel = actuators.accel if enabled else 0
 
@@ -133,15 +135,15 @@ class CarController():
 
       stopping = (actuators.longControlState == LongCtrlState.stopping)
       set_speed_in_units = hud_speed * (CV.MS_TO_MPH if CS.clu11["CF_Clu_SPEED_UNIT"] == 1 else CV.MS_TO_KPH)
-      can_sends.extend(create_acc_commands(self.packer, enabled, accel, jerk, int(frame / 2), lead_visible, set_speed_in_units, stopping))
+      can_sends.extend(create_acc_commands(self.packer, enabled, accel, jerk, int(self.frame / 2), lead_visible, set_speed_in_units, stopping))
       self.accel = accel
 
     # 5 Hz ACC options
-    if frame % 20 == 0:
+    if self.frame % 20 == 0:
       can_sends.extend(create_acc_opt(self.packer))
 
     # 2 Hz front radar options
-    if frame % 50 == 0:
+    if self.frame % 50 == 0:
       can_sends.append(create_frt_radar_opt(self.packer))      
 
     return  can_sends
@@ -166,10 +168,10 @@ class CarController():
     return can_sends    
 
 
-  def update_resume(self, can_sends,  c, CS, frame, path_plan):
+  def update_resume(self, can_sends,  c, CS, path_plan):
     pcm_cancel_cmd = c.cruiseControl.cancel
     if pcm_cancel_cmd:
-      can_sends.append(create_clu11(self.packer, frame, CS.clu11, Buttons.CANCEL))
+      can_sends.append(create_clu11(self.packer, self.frame, CS.clu11, Buttons.CANCEL))
     elif CS.out.cruiseState.standstill:
       if CS.out.gasPressed:
         self.last_lead_distance = 0      
@@ -179,12 +181,12 @@ class CarController():
         self.last_lead_distance = CS.lead_distance
         self.resume_cnt = 0
       # when lead car starts moving, create 6 RES msgs
-      elif CS.lead_distance != self.last_lead_distance and (frame - self.last_resume_frame) > 5:
+      elif CS.lead_distance != self.last_lead_distance and (self.frame - self.last_resume_frame) > 5:
         can_sends.append(create_clu11(self.packer, self.resume_cnt, CS.clu11, Buttons.RES_ACCEL))
         self.resume_cnt += 1
         # interval after 6 msgs
         if self.resume_cnt > 5:
-          self.last_resume_frame = frame
+          self.last_resume_frame = self.frame
           self.resume_cnt = 0
     # reset lead distnce after the car starts moving          
     elif self.last_lead_distance != 0:
@@ -203,7 +205,7 @@ class CarController():
     return  can_sends
 
 
-  def update(self, c, CS, frame ):
+  def update(self, c, CS ):
     enabled = c.enabled
     active = c.active
     actuators = c.actuators
@@ -239,7 +241,7 @@ class CarController():
     if sys_warning and CS.clu_Vanz < 30:
       sys_warning = False
 
-    if frame == 0: # initialize counts from last received count signals
+    if self.frame == 0: # initialize counts from last received count signals
       self.lkas11_cnt = CS.lkas11["CF_Lkas_MsgCount"] + 1
       self.scc12_cnt = CS.scc12["CR_VSM_Alive"] + 1
   
@@ -252,22 +254,22 @@ class CarController():
                                    left_lane, right_lane,
                                    left_lane_warning, right_lane_warning) )
 
-    can_sends.append( create_mdps12(self.packer, frame, CS.mdps12) )
+    can_sends.append( create_mdps12(self.packer, self.frame, CS.mdps12) )
 
     if  CS.CP.openpilotLongitudinalControl:
-      can_sends = self.updateLongitudinal( can_sends, c, CS, frame )
+      can_sends = self.updateLongitudinal( can_sends, c, CS )
     else:
-      can_sends = self.update_resume( can_sends, c, CS, frame, path_plan )
+      can_sends = self.update_resume( can_sends, c, CS, path_plan )
 
     if CS.CP.atompilotLongitudinalControl:
-      if (frame % 2 == 0) and CS.cruise_set_mode == 2:
+      if (self.frame % 2 == 0) and CS.cruise_set_mode == 2:
         can_sends = self.update_scc12( can_sends, c, CS )
         self.scc12_cnt += 1
     else:
       self.accel = CS.aReqValue
       
     # 20 Hz LFA MFA message
-    if frame % 5 == 0:
+    if self.frame % 5 == 0:
       self.update_debug( CS, c )
       if self.car_fingerprint in FEATURES["send_hda_mfa"]:
         can_sends.append( create_hda_mfc(self.packer, CS, c ) )
@@ -280,4 +282,5 @@ class CarController():
     new_actuators.steer = apply_steer / self.p.STEER_MAX
     new_actuators.accel = self.accel
 
+    self.frame += 1
     return new_actuators, can_sends
