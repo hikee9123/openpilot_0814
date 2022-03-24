@@ -29,6 +29,9 @@ CRUISE_INTERVAL_SIGN = {
   car.CarState.ButtonEvent.Type.decelCruise: -1,
 }
 
+MAX_LATERAL_JERKS = [0, 3, 2]
+MAX_LATERAL_JERK_SPEEDS = [0, 10, 35]
+
 
 class MPC_COST_LAT:
   PATH = 1.0
@@ -107,6 +110,7 @@ def get_lag_adjusted_curvature(CP, v_ego, psis, curvatures, curvature_rates):
   desired_curvature = current_curvature + 2 * curvature_diff_from_psi
 
   v_ego = max(v_ego, 0.1)
+  #MAX_LATERAL_JERK = interp(v_ego, MAX_LATERAL_JERK_SPEEDS, MAX_LATERAL_JERKS)
   max_curvature_rate = MAX_LATERAL_JERK / (v_ego**2)
   safe_desired_curvature_rate = clip(desired_curvature_rate,
                                           -max_curvature_rate,
