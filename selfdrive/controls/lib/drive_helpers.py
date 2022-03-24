@@ -9,7 +9,7 @@ from selfdrive.modeld.constants import T_IDXS
 #          model predictions above this speed can be unpredictable
 V_CRUISE_MAX = 145  # kph
 V_CRUISE_MIN = 8  # kph
-V_CRUISE_ENABLE_MIN = 40  # kph
+V_CRUISE_ENABLE_MIN = 30  # kph
 
 LAT_MPC_N = 16
 LON_MPC_N = 32
@@ -18,6 +18,9 @@ CAR_ROTATION_RADIUS = 0.0
 
 # EU guidelines
 MAX_LATERAL_JERK = 5.0
+
+MAX_LATERAL_JERKS = [0, 0.001, 3]
+MAX_LATERAL_JERK_SPEEDS = [0, 1, 10]
 
 CRUISE_LONG_PRESS = 50
 CRUISE_NEAREST_FUNC = {
@@ -29,8 +32,7 @@ CRUISE_INTERVAL_SIGN = {
   car.CarState.ButtonEvent.Type.decelCruise: -1,
 }
 
-MAX_LATERAL_JERKS = [0, 3, 2]
-MAX_LATERAL_JERK_SPEEDS = [0, 10, 35]
+
 
 
 class MPC_COST_LAT:
@@ -98,6 +100,7 @@ def get_lag_adjusted_curvature(CP, v_ego, psis, curvatures, curvature_rates):
     curvature_rates = [0.0]*CONTROL_N
 
   # TODO this needs more thought, use .2s extra for now to estimate other delays
+  steerActuatorDelay = interp(v_ego, [0,13], [0.5, CP.steerActuatorDelay])
   delay = CP.steerActuatorDelay + .2
   current_curvature = curvatures[0]
   psi = interp(delay, T_IDXS[:CONTROL_N], psis)
@@ -110,8 +113,9 @@ def get_lag_adjusted_curvature(CP, v_ego, psis, curvatures, curvature_rates):
   desired_curvature = current_curvature + 2 * curvature_diff_from_psi
 
   v_ego = max(v_ego, 0.1)
-  #MAX_LATERAL_JERK = interp(v_ego, MAX_LATERAL_JERK_SPEEDS, MAX_LATERAL_JERKS)
-  max_curvature_rate = MAX_LATERAL_JERK / (v_ego**2)
+  #LATERAL_JERK = interp(v_ego, MAX_LATERAL_JERK_SPEEDS, MAX_LATERAL_JERKS)
+  LATERAL_JERK = MAX_LATERAL_JERK
+  max_curvature_rate = LATERAL_JERK / (v_ego**2)
   safe_desired_curvature_rate = clip(desired_curvature_rate,
                                           -max_curvature_rate,
                                           max_curvature_rate)
