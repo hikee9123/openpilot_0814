@@ -207,7 +207,7 @@ class CarController():
 
   def update(self, c, CS ):
     enabled = c.enabled
-    active = c.active
+    active = c.latActive
     actuators = c.actuators
     left_lane = c.hudControl.leftLaneVisible 
     right_lane = c.hudControl.rightLaneVisible 
