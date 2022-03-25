@@ -142,8 +142,6 @@ private:
   void drawTrunSpeedSign(QPainter &p, QRect rc, const QString &speed, const QString &sub_text, int curv_sign, 
                          bool is_active);
 
-public:
-  bool isMapVisible() const { return map && map->isVisible(); }
 
 // navi
 private:
