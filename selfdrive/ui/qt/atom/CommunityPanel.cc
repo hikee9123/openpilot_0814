@@ -83,7 +83,7 @@ CommunityPanel::CommunityPanel(QWidget* parent) : ListWidget(parent)
       "../assets/offroad/icon_calibration.png",
     }, 
     {
-      "OSMSpeedLimitEnable",
+      "OpkrOSMSpeedLimitEnable",
       "Enable OSM Control",
       "Use OSM information from map data.",
       "../assets/offroad/icon_speed_limit.png",

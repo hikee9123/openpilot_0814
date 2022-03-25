@@ -201,6 +201,7 @@ std::unordered_map<std::string, uint32_t> keys = {
     {"OpkrShowDebugUI", PERSISTENT},
 
     // osm
+    {"OpkrOSMSpeedLimitEnable", PERSISTENT},    
     {"TurnSpeedControl", PERSISTENT},    
     {"TurnVisionControl", PERSISTENT},
     {"SpeedLimitControl", PERSISTENT},

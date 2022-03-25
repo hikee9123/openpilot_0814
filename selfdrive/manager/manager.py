@@ -47,6 +47,7 @@ def manager_init() -> None:
     ("TurnSpeedControl", "1"),
     ("TurnVisionControl", "1"),
     ("IsOpenpilotViewEnabled", "0"),
+    {"OpkrOSMSpeedLimitEnable", "0"},        
     {"OpkrShowDebugUI", "1"},    
     ("OpkrAutoResume", "0"),
     ("OpkrLiveSteerRatio", "0"),
