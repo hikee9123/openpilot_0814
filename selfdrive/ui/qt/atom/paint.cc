@@ -55,9 +55,9 @@ OnPaint::OnPaint(QWidget *parent) : QWidget(parent)
   img_narrow_road= QPixmap("../assets/addon/navigation/img_narrow_road.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   img_rail_road= QPixmap("../assets/addon/navigation/img_rail_road.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-  map_img = loadPixmap("../assets/addon/navigation/img_world_icon.png", {subsign_img_size, subsign_img_size});
-  left_img = loadPixmap("../assets/addon/navigation/img_turn_left_icon.png", {subsign_img_size, subsign_img_size});
-  right_img = loadPixmap("../assets/addon/navigation/img_turn_right_icon.png", {subsign_img_size, subsign_img_size});
+  map_img = loadPixmap("../assets/addon/navigation/img_world_icon.png", {img_size, img_size});
+  left_img = loadPixmap("../assets/addon/navigation/img_turn_left_icon.png", {img_size, img_size});
+  right_img = loadPixmap("../assets/addon/navigation/img_turn_right_icon.png", {img_size, img_size});
 
   connect(this, &OnPaint::valueChanged, [=] { update(); });
 
@@ -81,6 +81,7 @@ void OnPaint::updateState(const UIState &s)
   // update engageability and DM icons at 2Hz
   if (sm.frame % (UI_FREQ / 2) != 0) return;
 
+    float cur_speed = sm["carState"].getCarState().getVEgo() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
 
     const auto lp = sm["longitudinalPlan"].getLongitudinalPlan();
     const auto vtcState = lp.getVisionTurnControllerState();
@@ -101,11 +102,11 @@ void OnPaint::updateState(const UIState &s)
     const float speed_limit = lp.getSpeedLimit() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const float speed_limit_offset = lp.getSpeedLimitOffset() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const auto slcState = lp.getSpeedLimitControlState();
-    const bool sl_force_active = s.scene.speed_limit_control_enabled && 
-                                 seconds_since_boot() < s.scene.last_speed_limit_sign_tap + 2.0;
-    const bool sl_inactive = !sl_force_active && (!s.scene.speed_limit_control_enabled || 
+    const bool sl_force_active = s.scene.osm.speed_limit_control_enabled && 
+                                 seconds_since_boot() < s.scene.osm.last_speed_limit_sign_tap + 2.0;
+    const bool sl_inactive = !sl_force_active && (!s.scene.osm.speed_limit_control_enabled || 
                              slcState == cereal::LongitudinalPlan::SpeedLimitControlState::INACTIVE);
-    const bool sl_temp_inactive = !sl_force_active && (s.scene.speed_limit_control_enabled && 
+    const bool sl_temp_inactive = !sl_force_active && (s.scene.osm.speed_limit_control_enabled && 
                                   slcState == cereal::LongitudinalPlan::SpeedLimitControlState::TEMP_INACTIVE);
     const int sl_distance = int(lp.getDistToSpeedLimit() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH) / 10.0) * 10;
     const QString sl_distance_str(QString::number(sl_distance) + (s.scene.is_metric ? "m" : "f"));
@@ -331,7 +332,7 @@ void OnPaint::paintEvent(QPaintEvent *event)
   bb_ui_draw_UI( p );
   ui_main_navi( p );
 
-
+  QRect rc(bdr_s * 2, bdr_s * 1.5, 184, 202);
   if (showDebugUI && showVTC) {
     drawVisionTurnControllerUI(p, rect().right() - 184 - bdr_s, int(bdr_s * 1.5), 184, vtcColor, vtcSpeed, 100);
   } 
@@ -370,9 +371,9 @@ void OnPaint::mousePressEvent(QMouseEvent* e)
 
   if (longitudinal_plan.getSpeedLimit() > 0.0 && speed_limit_touch_rect.contains(e->x(), e->y())) {
     // If touching the speed limit sign area when visible
-    uiState()->scene.last_speed_limit_sign_tap = seconds_since_boot();
-    uiState()->scene.speed_limit_control_enabled = !uiState()->scene.speed_limit_control_enabled;
-    Params().putBool("SpeedLimitControl", uiState()->scene.speed_limit_control_enabled);
+    uiState()->scene.osm.last_speed_limit_sign_tap = seconds_since_boot();
+    uiState()->scene.osm.speed_limit_control_enabled = !uiState()->scene.osm.speed_limit_control_enabled;
+    Params().putBool("SpeedLimitControl", uiState()->scene.osm.speed_limit_control_enabled);
     propagate_event = false;
   }
 

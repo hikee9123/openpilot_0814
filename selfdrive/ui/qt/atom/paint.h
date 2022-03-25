@@ -110,7 +110,7 @@ private:
   QPixmap left_img;
   QPixmap right_img;
 
-
+  const int radius = 192;
   bool showVTC = false;
   QString vtcSpeed;
   QColor vtcColor;
