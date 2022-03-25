@@ -6,7 +6,7 @@ from common.params import Params
 
 WEBCAM = os.getenv("USE_WEBCAM") is not None
 
-ENABLE_OSM = Params().get_bool('OpkrOSMSpeedLimitEnable')
+ENABLE_OSM = Params().get_bool("OpkrOSMSpeedLimitEnable")
 
 procs = [
   DaemonProcess("manage_athenad", "selfdrive.athena.manage_athenad", "AthenadPid"),
