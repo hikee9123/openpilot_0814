@@ -77,7 +77,7 @@ void OnPaint::updateState(const UIState &s)
   prev_draw_t = cur_draw_t;
 
   return;
-
+/*
   SubMaster &sm = *(s.sm);
 
   // update engageability and DM icons at 2Hz
@@ -168,6 +168,7 @@ void OnPaint::updateState(const UIState &s)
     m_param.car_state = s.scene.car_state;
     auto radar_state = sm["radarState"].getRadarState();  // radar
     m_param.lead_radar = radar_state.getLeadOne();
+  */
 }
 
 
