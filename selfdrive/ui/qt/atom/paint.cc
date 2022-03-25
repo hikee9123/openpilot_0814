@@ -873,7 +873,7 @@ this is navigation code by OPKR, and thank you to the OPKR developer.
 I love OPKR code.
 */
 
-void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimit,  float speedLimitAheadDistance ) 
+void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speed_Limit,  float speedLimitAheadDistance ) 
 {
     int  nTrafficSign = int( map_sign );
 
@@ -903,7 +903,7 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
     //else if( nTrafficSign == TS_CAMERA3 ) traffic_sign = &img_img_space; // 경찰차(이동식)  - 호야
     //else if( nTrafficSign == TS_CAMERA4 ) traffic_sign = &img_img_space; // 단속구간(고정형 이동식)
     //else if( nTrafficSign == TS_CAMERA5  ) traffic_sign = &img_img_space;  // 단속(카메라, 신호위반)    
-    else if( speedLimit ) 
+    else if( speed_Limit ) 
     {
       if( nTrafficSign == TS_INTERVAL  )   // 구간 단속
         traffic_sign = &img_section;
@@ -971,10 +971,10 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
       szSLD.sprintf("%d", nTrafficSign );
       drawText( p, img_xpos + int(img_size1*0.5), img_ypos+25, szSLD ); 
 
-      if( speedLimit )
+      if( speed_Limit )
       {
         configFont( p, "Open Sans",  85, "SemiBold");
-        szSLD.sprintf("%.0f", speedLimit );
+        szSLD.sprintf("%.0f", speed_Limit );
         drawText( p, img_xpos + int(img_size1*0.5), img_ypos + int(img_size1*0.79), szSLD, QColor(0,0,0,255) );  
       }       
     }
@@ -992,7 +992,7 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
 
 void OnPaint::ui_draw_navi( QPainter &p ) 
 {
-  float speedLimit =  scene->liveNaviData.getSpeedLimit();  
+  float speed_Limit =  scene->liveNaviData.getSpeedLimit();  
   float speedLimitAheadDistance =  scene->liveNaviData.getArrivalDistance(); // getSpeedLimitDistance();  
   float nTrafficSign =  scene->liveNaviData.getSafetySign();
   int   mapValid =  scene->liveNaviData.getMapValid();
@@ -1000,7 +1000,7 @@ void OnPaint::ui_draw_navi( QPainter &p )
 
   if( mapValid )
   {
-    ui_draw_traffic_sign( p, nTrafficSign, speedLimit, speedLimitAheadDistance );
+    ui_draw_traffic_sign( p, nTrafficSign, speed_Limit, speedLimitAheadDistance );
   }
 }
 
