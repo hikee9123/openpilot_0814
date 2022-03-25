@@ -99,7 +99,7 @@ void OnPaint::updateState(const UIState &s)
 
     setProperty("roadName", QString::fromStdString(lmd.getCurrentRoadName()));
 
-    const float speed_limit = lp.getSpeedLimit() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
+    const float dSpeed = lp.getSpeedLimit() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const float speed_limit_offset = lp.getSpeedLimitOffset() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const auto slcState = lp.getSpeedLimitControlState();
     const bool sl_force_active = s.scene.osm.speed_limit_control_enabled && 
@@ -116,8 +116,8 @@ void OnPaint::updateState(const UIState &s)
     const QString sl_substring(sl_inactive || sl_temp_inactive ? sl_inactive_str : 
                                sl_distance > 0 ? sl_distance_str : sl_offset_str);
 
-    setProperty("showSpeedLimit", speed_limit > 0.0);
-    setProperty("speedLimit", QString::number(std::nearbyint(speed_limit)));
+    setProperty("showSpeedLimit", dSpeed > 0.0);
+    setProperty("speedLimit", QString::number(std::nearbyint(dSpeed)));
     setProperty("slcSubText", sl_substring);
     setProperty("slcSubTextSize", sl_inactive || sl_temp_inactive || sl_distance > 0 ? 22.2 : 37.0);
     setProperty("mapSourcedSpeedLimit", lp.getIsMapSpeedLimit());
@@ -241,7 +241,7 @@ void OnPaint::drawVisionTurnControllerUI(QPainter &p, int x, int y, int size, co
   drawCenteredText(p, rvtc.center().x(), rvtc.center().y(), vision_speed, color);
 }
 
-void OnPaint::drawSpeedSign(QPainter &p, QRect rc, const QString &speed_limit, const QString &sub_text, 
+void OnPaint::drawSpeedSign(QPainter &p, QRect rc, const QString &strSpeed, const QString &sub_text, 
                               int subtext_size, bool is_map_sourced, bool is_active) {
   const QColor ring_color = is_active ? QColor(255, 0, 0, 255) : QColor(0, 0, 0, 50);
   const QColor inner_color = QColor(255, 255, 255, is_active ? 255 : 85);
@@ -255,7 +255,7 @@ void OnPaint::drawSpeedSign(QPainter &p, QRect rc, const QString &speed_limit, c
   drawCircle(p, x, y, int(r * 0.8f), inner_color);
 
   configFont(p, "Open Sans", 89, "Bold");
-  drawCenteredText(p, x, y, speed_limit, text_color);
+  drawCenteredText(p, x, y, strSpeed, text_color);
   configFont(p, "Open Sans", subtext_size, "Bold");
   drawCenteredText(p, x, y + 55, sub_text, text_color);
 
@@ -873,7 +873,7 @@ this is navigation code by OPKR, and thank you to the OPKR developer.
 I love OPKR code.
 */
 
-void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speed_Limit,  float speedLimitAheadDistance ) 
+void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float dSpeed,  float speedLimitAheadDistance ) 
 {
     int  nTrafficSign = int( map_sign );
 
@@ -903,7 +903,7 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speed_Lim
     //else if( nTrafficSign == TS_CAMERA3 ) traffic_sign = &img_img_space; // 경찰차(이동식)  - 호야
     //else if( nTrafficSign == TS_CAMERA4 ) traffic_sign = &img_img_space; // 단속구간(고정형 이동식)
     //else if( nTrafficSign == TS_CAMERA5  ) traffic_sign = &img_img_space;  // 단속(카메라, 신호위반)    
-    else if( speed_Limit ) 
+    else if( dSpeed ) 
     {
       if( nTrafficSign == TS_INTERVAL  )   // 구간 단속
         traffic_sign = &img_section;
@@ -971,10 +971,10 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speed_Lim
       szSLD.sprintf("%d", nTrafficSign );
       drawText( p, img_xpos + int(img_size1*0.5), img_ypos+25, szSLD ); 
 
-      if( speed_Limit )
+      if( dSpeed )
       {
         configFont( p, "Open Sans",  85, "SemiBold");
-        szSLD.sprintf("%.0f", speed_Limit );
+        szSLD.sprintf("%.0f", dSpeed );
         drawText( p, img_xpos + int(img_size1*0.5), img_ypos + int(img_size1*0.79), szSLD, QColor(0,0,0,255) );  
       }       
     }
@@ -992,7 +992,7 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speed_Lim
 
 void OnPaint::ui_draw_navi( QPainter &p ) 
 {
-  float speed_Limit =  scene->liveNaviData.getSpeedLimit();  
+  float dSpeed =  scene->liveNaviData.getSpeedLimit();  
   float speedLimitAheadDistance =  scene->liveNaviData.getArrivalDistance(); // getSpeedLimitDistance();  
   float nTrafficSign =  scene->liveNaviData.getSafetySign();
   int   mapValid =  scene->liveNaviData.getMapValid();
@@ -1000,7 +1000,7 @@ void OnPaint::ui_draw_navi( QPainter &p )
 
   if( mapValid )
   {
-    ui_draw_traffic_sign( p, nTrafficSign, speed_Limit, speedLimitAheadDistance );
+    ui_draw_traffic_sign( p, nTrafficSign, dSpeed, speedLimitAheadDistance );
   }
 }
 
