@@ -262,7 +262,7 @@ void OnPaint::drawSpeedSign(QPainter &p, QRect rc, const QString &speed_limit, c
   if (is_map_sourced) {
     p.setPen(Qt::NoPen);
     p.setOpacity(is_active ? 1.0 : 0.3);
-    p.drawPixmap(x - subsign_img_size / 2, y - 55 - subsign_img_size / 2, map_img);
+    p.drawPixmap(x - img_size / 2, y - 55 - img_size / 2, map_img);
     p.setOpacity(1.0);
   }
 }
@@ -311,7 +311,7 @@ void OnPaint::drawTrunSpeedSign(QPainter &p, QRect rc, const QString &turn_speed
   if (curv_sign != 0) {
     p.setPen(Qt::NoPen);
     p.setOpacity(is_active ? 1.0 : 0.3);
-    p.drawPixmap(int(x - (subsign_img_size / 2)), int(y - R + stroke_w + 30), curv_sign > 0 ? left_img : right_img);
+    p.drawPixmap(int(x - (img_size / 2)), int(y - R + stroke_w + 30), curv_sign > 0 ? left_img : right_img);
     p.setOpacity(1.0);
   }
 
@@ -908,7 +908,7 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
       if( nTrafficSign == TS_INTERVAL  )   // 구간 단속
         traffic_sign = &img_section;
       else if( nTrafficSign == TS_CAMERA1  )
-        traffic_sign = &img_camera
+        traffic_sign = &img_camera;
       else
         traffic_sign = &img_speed;
     }
