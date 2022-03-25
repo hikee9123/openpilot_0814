@@ -332,6 +332,7 @@ void OnPaint::paintEvent(QPaintEvent *event)
   bb_ui_draw_UI( p );
   ui_main_navi( p );
 
+/*
   QRect rc(bdr_s * 2, bdr_s * 1.5, 184, 202);
   if (showDebugUI && showVTC) {
     drawVisionTurnControllerUI(p, rect().right() - 184 - bdr_s, int(bdr_s * 1.5), 184, vtcColor, vtcSpeed, 100);
@@ -358,6 +359,7 @@ void OnPaint::paintEvent(QPaintEvent *event)
     configFont(p, "Open Sans", 38, "Bold");
     drawCenteredText(p, bar_rc.center().x(), bar_rc.center().y(), roadName, QColor(255, 255, 255, 200));
   }  
+  */
 }
 
 void OnPaint::mousePressEvent(QMouseEvent* e) 
