@@ -72,8 +72,46 @@ CommunityPanel::CommunityPanel(QWidget* parent) : ListWidget(parent)
       "Power off and shutdown",
       "전원 미공급후 배터리 잔량 70퍼센트 이하일경우 전원을 off합니다..",
       "../assets/offroad/icon_shell.png",
-    },  
+    },
 
+    
+  
+    {
+      "OpkrShowDebugUI",
+      "Show debug UI elements",
+      "Show UI elements that aid debugging.",
+      "../assets/offroad/icon_calibration.png",
+    }, 
+    {
+      "OSMSpeedLimitEnable",
+      "Enable OSM Control",
+      "Use OSM information from map data.",
+      "../assets/offroad/icon_speed_limit.png",
+    },     
+    {
+      "SpeedLimitControl",
+      "Enable Speed Limit Control",
+      "Use speed limit signs information from map data and car interface to automatically adapt cruise speed to road limits.",
+      "../assets/offroad/icon_speed_limit.png",
+    },
+    {
+      "SpeedLimitPercOffset",
+      "Enable Speed Limit Offset",
+      "Set speed limit slightly higher than actual speed limit for a more natural drive.",
+      "../assets/offroad/icon_speed_limit.png",
+    },
+    {
+      "TurnSpeedControl",
+      "Enable Map Data Turn Control",
+      "Use curvature info from map data to define speed limits to take turns ahead",
+      "../assets/offroad/icon_openpilot.png",
+    },      
+    {
+      "TurnVisionControl",
+      "Enable vision based turn control",
+      "Use vision path predictions to estimate the appropiate speed to drive through turns ahead.",
+      "../assets/offroad/icon_road.png",
+    },    
   };
 
   for (auto &[param, title, desc, icon] : toggles) {

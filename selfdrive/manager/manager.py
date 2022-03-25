@@ -43,8 +43,11 @@ def manager_init() -> None:
     ("CompletedTrainingVersion", "0"),
     ("HasAcceptedTerms", "0"),
     ("OpenpilotEnabledToggle", "1"),
-
+    
+    ("TurnSpeedControl", "1"),
+    ("TurnVisionControl", "1"),
     ("IsOpenpilotViewEnabled", "0"),
+    {"OpkrShowDebugUI", "1"},    
     ("OpkrAutoResume", "0"),
     ("OpkrLiveSteerRatio", "0"),
     ("OpkrTurnSteeringDisable", "0"),
