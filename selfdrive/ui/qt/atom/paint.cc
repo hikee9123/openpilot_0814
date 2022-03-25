@@ -55,9 +55,9 @@ OnPaint::OnPaint(QWidget *parent) : QWidget(parent)
   img_narrow_road= QPixmap("../assets/addon/navigation/img_narrow_road.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   img_rail_road= QPixmap("../assets/addon/navigation/img_rail_road.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-  //map_img = QPixmap("../assets/addon/navigation/img_world_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  //left_img = QPixmap("../assets/addon/navigation/img_turn_left_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  //right_img = QPixmap("../assets/addon/navigation/img_turn_right_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  map_img = QPixmap("../assets/addon/navigation/img_world_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  left_img = QPixmap("../assets/addon/navigation/img_turn_left_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  right_img = QPixmap("../assets/addon/navigation/img_turn_right_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
   connect(this, &OnPaint::valueChanged, [=] { update(); });
 
@@ -363,6 +363,7 @@ void OnPaint::paintEvent(QPaintEvent *event)
   */
 }
 
+/*/
 void OnPaint::mousePressEvent(QMouseEvent* e) 
 {
   bool propagate_event = true;
@@ -385,6 +386,8 @@ void OnPaint::mousePressEvent(QMouseEvent* e)
     QWidget::mousePressEvent(e);
   }
 }
+*/
+
 // 
 void OnPaint::drawText(QPainter &p, int x, int y, const QString &text, QColor qColor, int nAlign ) 
 {
