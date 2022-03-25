@@ -7,14 +7,13 @@ from urllib.request import urlopen
 from glob import glob
 import subprocess
 import importlib.util
-from common.params import Params
+
 
 # NOTE: Do NOT import anything here that needs be built (e.g. params)
 from common.basedir import BASEDIR
 from common.spinner import Spinner
 from selfdrive.hardware import TICI
 
-ENABLE_OSM = Params().get_bool('OSMSpeedLimitEnable')
 
 OPSPLINE_SPEC = importlib.util.find_spec('opspline') or importlib.util.find_spec('scipy')
 OVERPY_SPEC = importlib.util.find_spec('overpy')
@@ -90,7 +89,7 @@ def install_dep(spinner):
       shutil.rmtree(f'{PYEXTRA_DIR}/bin')
 
 
-if __name__ == "__main__" and ENABLE_OSM and (OPSPLINE_SPEC is None or OVERPY_SPEC is None):
+if __name__ == "__main__" and  (OPSPLINE_SPEC is None or OVERPY_SPEC is None):
   spinner = Spinner()
   spinner.update_progress(0, 100)
   install_dep(spinner)
