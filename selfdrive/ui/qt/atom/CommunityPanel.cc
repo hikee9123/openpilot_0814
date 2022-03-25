@@ -74,8 +74,6 @@ CommunityPanel::CommunityPanel(QWidget* parent) : ListWidget(parent)
       "../assets/offroad/icon_shell.png",
     },
 
-    
-  
     {
       "OpkrShowDebugUI",
       "Show debug UI elements",

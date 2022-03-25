@@ -289,7 +289,7 @@ UIState::UIState(QObject *parent) : QObject(parent) {
     "modelV2", "controlsState", "liveCalibration", "radarState", "deviceState", "roadCameraState",
     "pandaStates", "carParams", "driverMonitoringState", "sensorEvents", "carState", "liveLocationKalman",
     "wideRoadCameraState",
-    "liveNaviData", "gpsLocationExternal", "lateralPlan", "liveParameters", "longitudinalPlan", "liveMapData",
+    "liveNaviData", "gpsLocationExternal", "lateralPlan", "liveParameters", "longitudinalPlan",  //"liveMapData",
   });
 
   Params params;

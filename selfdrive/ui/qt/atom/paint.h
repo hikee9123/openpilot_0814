@@ -149,7 +149,7 @@ private:
   void   ui_main_navi( QPainter &p );
   void   ui_draw_debug1( QPainter &p );
   void   ui_draw_navi( QPainter &p );
-  void   ui_draw_traffic_sign( QPainter &p, float map_sign, float speed_Limit,  float speedLimitAheadDistance );
+  void   ui_draw_traffic_sign( QPainter &p, float map_sign, float dSpeed,  float speedLimitAheadDistance );
   int    get_param( const std::string &key );
 // kegmen
 private:
