@@ -35,6 +35,7 @@ OnPaint::OnPaint(QWidget *parent) : QWidget(parent)
   img_traf_turn= QPixmap("../assets/img_trafficSign_turn.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   img_speed = QPixmap("../assets/addon/navigation/img_speed.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   img_section = QPixmap("../assets/addon/navigation/img_section.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  img_camera = QPixmap("../assets/addon/navigation/img_camera.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
   img_overtrack = QPixmap("../assets/addon/navigation/overtrak.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   img_park_crackdown = QPixmap("../assets/addon/navigation/park_crackdown.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
@@ -683,13 +684,11 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
     else if( speedLimit ) 
     {
       if( nTrafficSign == TS_INTERVAL  )   // 구간 단속
-      {
         traffic_sign = &img_section;
-      }
+      else if( nTrafficSign == TS_CAMERA1  )
+        traffic_sign = &img_camera
       else
-      {
         traffic_sign = &img_speed;
-      }
     }
 
 

@@ -11,7 +11,7 @@ from selfdrive.car.hyundai.navicontrol  import NaviControl
 
 VisualAlert = car.CarControl.HUDControl.VisualAlert
 LongCtrlState = car.CarControl.Actuators.LongControlState
-LaneChangeState = log.LateralPlan.LaneChangeState
+
 
 import common.loger as trace1
 
@@ -45,15 +45,19 @@ class CarController():
     self.DT_STEER = 0.01
     self.scc_live = not CP.radarOffCan
 
-  def process_hud_alert(self, enabled, c ):
+  def process_hud_alert(self, enabled, c, CS ):
     visual_alert = c.hudControl.visualAlert
     left_lane = c.hudControl.leftLaneVisible
     right_lane = c.hudControl.rightLaneVisible
 
-    sys_warning = (visual_alert in (VisualAlert.steerRequired, VisualAlert.ldw))
 
-    if sys_warning:
-      self.hud_timer_alert = 500
+    if CS.out.steeringPressed:
+      self.hud_timer_alert = 0
+    elif CS.clu_Vanz > 30:
+      sys_warning = (visual_alert in (VisualAlert.steerRequired, VisualAlert.ldw))
+
+      if sys_warning:
+        self.hud_timer_alert = 500
 
     if left_lane:
       self.hud_timer_left = 100
@@ -64,6 +68,9 @@ class CarController():
     if self.hud_timer_alert:
       sys_warning = True
       self.hud_timer_alert -= 1
+    else:
+      sys_warning = False
+
 
     if self.hud_timer_left:
       self.hud_timer_left -= 1
@@ -118,9 +125,6 @@ class CarController():
     enabled = c.enabled and CS.out.cruiseState.accActive
     actuators = c.actuators
     hud_speed = c.hudControl.setSpeed
-    # tester present - w/ no response (keeps radar disabled)
-    if (self.frame % 100) == 0:
-        can_sends.append([0x7D0, 0, b"\x02\x3E\x80\x00\x00\x00\x00\x00", 0])
 
     if self.frame % 2 == 0:
       lead_visible = False
@@ -235,11 +239,9 @@ class CarController():
       apply_steer = self.smooth_steer(  apply_steer )
 
     self.apply_steer_last = apply_steer
-    sys_warning, sys_state = self.process_hud_alert( lkas_active, c )
+    sys_warning, sys_state = self.process_hud_alert( lkas_active, c, CS )
 
 
-    if sys_warning and CS.clu_Vanz < 30:
-      sys_warning = False
 
     if self.frame == 0: # initialize counts from last received count signals
       self.lkas11_cnt = CS.lkas11["CF_Lkas_MsgCount"] + 1
@@ -248,7 +250,14 @@ class CarController():
     self.lkas11_cnt %= 0x10
     self.scc12_cnt %= 0x0F
 
+    # tester present - w/ no response (keeps radar disabled)
+
     can_sends = []
+    if self.CP.openpilotLongitudinalControl:
+      if self.frame % 100 == 0:
+        can_sends.append([0x7D0, 0, b"\x02\x3E\x80\x00\x00\x00\x00\x00", 0])
+
+
     can_sends.append( create_lkas11(self.packer, self.lkas11_cnt, self.car_fingerprint, apply_steer, lkas_active,
                                    CS.lkas11, sys_warning, sys_state, enabled,
                                    left_lane, right_lane,
@@ -276,11 +285,11 @@ class CarController():
       elif self.car_fingerprint in FEATURES["send_lfa_mfa"]:
         can_sends.append( create_lfahda_mfc(self.packer, enabled) )
    
-    self.lkas11_cnt += 1
 
     new_actuators = actuators.copy()
     new_actuators.steer = apply_steer / self.params.STEER_MAX
     new_actuators.accel = self.accel
 
+    self.lkas11_cnt += 1
     self.frame += 1
     return new_actuators, can_sends

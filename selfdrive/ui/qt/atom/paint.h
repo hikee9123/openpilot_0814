@@ -63,6 +63,8 @@ private:
   QPixmap img_direction;
   QPixmap img_tire_pressure;
 
+  // speed
+  QPixmap img_camera;
   QPixmap img_speed;
   QPixmap img_section;
 
