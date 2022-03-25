@@ -53,5 +53,3 @@ if ENABLE_OSM:
   ]
 
 managed_processes = {p.name: p for p in procs}
-
-

@@ -39,7 +39,7 @@ public:
 
 private:
   void    paintEvent(QPaintEvent *event) override;
-  //void    mousePressEvent(QMouseEvent* e) override;  
+  void    mousePressEvent(QMouseEvent* e) override;  
   void    drawText(QPainter &p, int x, int y, const QString &text, QColor qColor = QColor(255,255,255,255), int nAlign = Qt::AlignCenter );
   QColor  get_color( int nVal, int nRed, int nYellow );
   

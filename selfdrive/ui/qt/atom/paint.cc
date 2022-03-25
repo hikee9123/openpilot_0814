@@ -3,7 +3,7 @@
 #include <cmath>
 
 #include <QDebug>
-//#include <QMouseEvent>
+#include <QMouseEvent>
 
 #include "selfdrive/common/timing.h"
 #include "selfdrive/ui/qt/util.h"
@@ -55,9 +55,9 @@ OnPaint::OnPaint(QWidget *parent) : QWidget(parent)
   img_narrow_road= QPixmap("../assets/addon/navigation/img_narrow_road.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   img_rail_road= QPixmap("../assets/addon/navigation/img_rail_road.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-//  map_img = QPixmap("../assets/addon/navigation/img_world_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-//  left_img = QPixmap("../assets/addon/navigation/img_turn_left_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
- // right_img = QPixmap("../assets/addon/navigation/img_turn_right_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  map_img = QPixmap("../assets/addon/navigation/img_world_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  left_img = QPixmap("../assets/addon/navigation/img_turn_left_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+  right_img = QPixmap("../assets/addon/navigation/img_turn_right_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
   connect(this, &OnPaint::valueChanged, [=] { update(); });
 
@@ -75,8 +75,6 @@ void OnPaint::updateState(const UIState &s)
   double dt = cur_draw_t - prev_draw_t;
   if (dt < 100)  return;
   prev_draw_t = cur_draw_t;
-
-  return;
 
   SubMaster &sm = *(s.sm);
 
@@ -136,13 +134,11 @@ void OnPaint::updateState(const UIState &s)
     setProperty("tscActive", tscState > cereal::LongitudinalPlan::SpeedLimitControlState::TEMP_INACTIVE);
     setProperty("curveSign", lp.getTurnSign());
 
-
-
-    //
     auto gps_ext = s.scene.gpsLocationExternal;
     m_param.gpsAccuracyUblox = gps_ext.getAccuracy();
     m_param.altitudeUblox = gps_ext.getAltitude(); 
     m_param.bearingUblox = gps_ext.getBearingDeg();
+
 
    if (sm.updated("deviceState")) 
    {
@@ -335,7 +331,7 @@ void OnPaint::paintEvent(QPaintEvent *event)
   bb_ui_draw_UI( p );
   ui_main_navi( p );
 
-/*
+
   QRect rc(bdr_s * 2, bdr_s * 1.5, 184, 202);
   if (showDebugUI && showVTC) {
     drawVisionTurnControllerUI(p, rect().right() - 184 - bdr_s, int(bdr_s * 1.5), 184, vtcColor, vtcSpeed, 100);
@@ -362,10 +358,10 @@ void OnPaint::paintEvent(QPaintEvent *event)
     configFont(p, "Open Sans", 38, "Bold");
     drawCenteredText(p, bar_rc.center().x(), bar_rc.center().y(), roadName, QColor(255, 255, 255, 200));
   }  
-  */
+
 }
 
-/*/
+
 void OnPaint::mousePressEvent(QMouseEvent* e) 
 {
   bool propagate_event = true;
@@ -388,8 +384,6 @@ void OnPaint::mousePressEvent(QMouseEvent* e)
     QWidget::mousePressEvent(e);
   }
 }
-*/
-
 // 
 void OnPaint::drawText(QPainter &p, int x, int y, const QString &text, QColor qColor, int nAlign ) 
 {
