@@ -11,7 +11,7 @@
 class OnPaint : public QWidget 
 {
   Q_OBJECT
-
+/*
   Q_PROPERTY(bool showVTC MEMBER showVTC NOTIFY valueChanged);
   Q_PROPERTY(QString vtcSpeed MEMBER vtcSpeed NOTIFY valueChanged);
   Q_PROPERTY(QColor vtcColor MEMBER vtcColor NOTIFY valueChanged);
@@ -31,7 +31,7 @@ class OnPaint : public QWidget
   Q_PROPERTY(QString tscSubText MEMBER tscSubText NOTIFY valueChanged);
   Q_PROPERTY(bool tscActive MEMBER tscActive NOTIFY valueChanged);
   Q_PROPERTY(int curveSign MEMBER curveSign NOTIFY valueChanged);
-
+*/
 
 public:
   explicit OnPaint(QWidget *parent);

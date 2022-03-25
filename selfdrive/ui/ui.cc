@@ -248,7 +248,7 @@ static void update_state(UIState *s) {
 void ui_update_params(UIState *s) {
   s->scene.is_metric = Params().getBool("IsMetric");
   s->scene.IsOpenpilotViewEnabled = Params().getBool("IsOpenpilotViewEnabled");
-  s->scene.show_debug_ui = Params().getBool("OpkrShowDebugUI");
+  //s->scene.show_debug_ui = Params().getBool("OpkrShowDebugUI");
 }
 
 void UIState::updateStatus() {
@@ -273,8 +273,8 @@ void UIState::updateStatus() {
       wide_camera = Hardware::TICI() ? Params().getBool("EnableWideCamera") : false;
 
       // osm
-      scene.osm.speed_limit_control_enabled = Params().getBool("SpeedLimitControl");
-      scene.osm.speed_limit_perc_offset = Params().getBool("SpeedLimitPercOffset");      
+    //  scene.osm.speed_limit_control_enabled = Params().getBool("SpeedLimitControl");
+     // scene.osm.speed_limit_perc_offset = Params().getBool("SpeedLimitPercOffset");      
     }
     started_prev = scene.started;
     emit offroadTransition(!scene.started);
@@ -289,7 +289,7 @@ UIState::UIState(QObject *parent) : QObject(parent) {
     "modelV2", "controlsState", "liveCalibration", "radarState", "deviceState", "roadCameraState",
     "pandaStates", "carParams", "driverMonitoringState", "sensorEvents", "carState", "liveLocationKalman",
     "wideRoadCameraState",
-    "liveNaviData", "gpsLocationExternal", "lateralPlan", "liveParameters", "longitudinalPlan",  //"liveMapData",
+    "liveNaviData", "gpsLocationExternal", "lateralPlan", "liveParameters", "longitudinalPlan", "liveMapData",
   });
 
   Params params;

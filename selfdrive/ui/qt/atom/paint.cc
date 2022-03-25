@@ -3,7 +3,7 @@
 #include <cmath>
 
 #include <QDebug>
-#include <QMouseEvent>
+//#include <QMouseEvent>
 
 #include "selfdrive/common/timing.h"
 #include "selfdrive/ui/qt/util.h"
@@ -55,9 +55,9 @@ OnPaint::OnPaint(QWidget *parent) : QWidget(parent)
   img_narrow_road= QPixmap("../assets/addon/navigation/img_narrow_road.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
   img_rail_road= QPixmap("../assets/addon/navigation/img_rail_road.png").scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-  map_img = QPixmap("../assets/addon/navigation/img_world_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  left_img = QPixmap("../assets/addon/navigation/img_turn_left_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-  right_img = QPixmap("../assets/addon/navigation/img_turn_right_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+//  map_img = QPixmap("../assets/addon/navigation/img_world_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+//  left_img = QPixmap("../assets/addon/navigation/img_turn_left_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+ // right_img = QPixmap("../assets/addon/navigation/img_turn_right_icon.png".scaled(img_size, img_size, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
   connect(this, &OnPaint::valueChanged, [=] { update(); });
 
@@ -77,6 +77,7 @@ void OnPaint::updateState(const UIState &s)
   prev_draw_t = cur_draw_t;
 
   return;
+
   SubMaster &sm = *(s.sm);
 
   // update engageability and DM icons at 2Hz
