@@ -22,17 +22,6 @@ const int footer_h = 280;
 const int UI_FREQ = 20;   // Hz
 typedef cereal::CarControl::HUDControl::AudibleAlert AudibleAlert;
 
-// osm
-const QRect speed_sgn_rc(bdr_s * 2, bdr_s * 2.5 + 202, 184, 184);
-
-
-const QColor tcs_colors [] = {
-  [int(cereal::LongitudinalPlan::VisionTurnControllerState::DISABLED)] =  QColor(0x0, 0x0, 0x0, 0xff),
-  [int(cereal::LongitudinalPlan::VisionTurnControllerState::ENTERING)] = QColor(0xC9, 0x22, 0x31, 0xf1),
-  [int(cereal::LongitudinalPlan::VisionTurnControllerState::TURNING)] = QColor(0xDA, 0x6F, 0x25, 0xf1),
-  [int(cereal::LongitudinalPlan::VisionTurnControllerState::LEAVING)] = QColor(0x17, 0x86, 0x44, 0xf1),
-};
-
 // TODO: this is also hardcoded in common/transformations/camera.py
 // TODO: choose based on frame input size
 const float y_offset = Hardware::EON() ? 0.0 : 150.0;
@@ -141,7 +130,6 @@ typedef struct UIScene {
   cereal::LateralPlan::Reader lateralPlan;
  // cereal::RadarState::LeadData::Reader  lead_data[2];
 
-  int  show_debug_ui;
   int  IsOpenpilotViewEnabled;
   struct _screen
   {
@@ -166,15 +154,6 @@ typedef struct UIScene {
       std::string alertTextMsg2; 
       std::string alertTextMsg3;
   } alert;
-
-  // Speed limit control
-  struct _OSM_SPEED_LIMIT_CONTROL
-  {
-    bool speed_limit_control_enabled;
-    bool speed_limit_perc_offset;
-    double last_speed_limit_sign_tap;  
-  } osm;
-
 } UIScene;
 
 class UIState : public QObject {
