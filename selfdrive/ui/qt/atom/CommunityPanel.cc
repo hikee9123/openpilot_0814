@@ -73,7 +73,7 @@ CommunityPanel::CommunityPanel(QWidget* parent) : ListWidget(parent)
       "전원 미공급후 배터리 잔량 70퍼센트 이하일경우 전원을 off합니다..",
       "../assets/offroad/icon_shell.png",
     },
-/*
+ 
     {
       "OpkrShowDebugUI",
       "Show debug UI elements",
@@ -109,8 +109,7 @@ CommunityPanel::CommunityPanel(QWidget* parent) : ListWidget(parent)
       "Enable vision based turn control",
       "Use vision path predictions to estimate the appropiate speed to drive through turns ahead.",
       "../assets/offroad/icon_road.png",
-    },  
-*/ 
+    },
   };
 
   for (auto &[param, title, desc, icon] : toggles) {
