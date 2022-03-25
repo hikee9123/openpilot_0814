@@ -76,6 +76,7 @@ void OnPaint::updateState(const UIState &s)
   if (dt < 100)  return;
   prev_draw_t = cur_draw_t;
 
+  return;
   SubMaster &sm = *(s.sm);
 
   // update engageability and DM icons at 2Hz
