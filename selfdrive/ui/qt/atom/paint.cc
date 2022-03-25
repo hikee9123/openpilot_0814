@@ -686,7 +686,7 @@ void OnPaint::ui_draw_traffic_sign( QPainter &p, float map_sign, float speedLimi
       if( nTrafficSign == TS_INTERVAL  )   // 구간 단속
         traffic_sign = &img_section;
       else if( nTrafficSign == TS_CAMERA1  )
-        traffic_sign = &img_camera
+        traffic_sign = &img_camera;
       else
         traffic_sign = &img_speed;
     }
