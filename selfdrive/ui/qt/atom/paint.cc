@@ -86,12 +86,8 @@ void OnPaint::updateState(const UIState &s)
   // Speed Limit Sign
   //showSpeedLimit
   // Turn Speed Sign
-  showTurnSpeedLimit
+  //showTurnSpeedLimit
 
-
-
-  // Bottom bar road name
-  if (showDebugUI && !roadName.isEmpty()) {
 
 
     float cur_speed = sm["carState"].getCarState().getVEgo() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
@@ -148,7 +144,7 @@ void OnPaint::updateState(const UIState &s)
 
     const float tsc_speed = lp.getTurnSpeed() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     tsc_speed = 50;
-    
+
     const auto tscState = lp.getTurnSpeedControlState();
     const int t_distance = int(lp.getDistToTurn() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH) / 10.0) * 10;
     const QString t_distance_str(QString::number(t_distance) + (s.scene.is_metric ? "m" : "f"));
