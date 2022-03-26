@@ -104,9 +104,11 @@ void OnPaint::updateState(const UIState &s)
     setProperty("vtcColor", vtc_color);
     setProperty("showDebugUI", s.scene.show_debug_ui);  // OpkrShowDebugUI
 
-    const auto lmd = "getCurrentRoadName";  //sm["liveMapData"].getLiveMapData();
+    const auto lmd = sm["liveMapData"].getLiveMapData();
 
-    setProperty("roadName", QString::fromStdString(lmd.getCurrentRoadName()));
+    //setProperty("roadName", QString::fromStdString(lmd.getCurrentRoadName()));
+
+    setProperty("roadName", "QString::fromStdString(lmd.getCurrentRoadName())" );
 
     float dSpeed = lp.getSpeedLimit() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
 
