@@ -12,7 +12,7 @@ import json
 _WAY_BBOX_PADING = 80. / R  # 80 mts of pading to bounding box. (expressed in radians)
 
 
-with open(BASEDIR + "/selfdrive/mapd/lib/default_speeds.json", "rb") as f:
+with open(BASEDIR + "/selfdrive/assets/addon/mapd/lib/default_speeds.json", "rb") as f:
   _COUNTRY_LIMITS = json.loads(f.read())
 
 
