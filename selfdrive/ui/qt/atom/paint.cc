@@ -81,14 +81,34 @@ void OnPaint::updateState(const UIState &s)
   // update engageability and DM icons at 2Hz
   if (sm.frame % (UI_FREQ / 2) != 0) return;
 
+
+  //showVTC
+  // Speed Limit Sign
+  //showSpeedLimit
+  // Turn Speed Sign
+  showTurnSpeedLimit
+
+
+
+  // Bottom bar road name
+  if (showDebugUI && !roadName.isEmpty()) {
+
+
     float cur_speed = sm["carState"].getCarState().getVEgo() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
 
     const auto lp = sm["longitudinalPlan"].getLongitudinalPlan();
     const auto vtcState = lp.getVisionTurnControllerState();
     const float vtc_speed = lp.getVisionTurnSpeed() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const auto lpSoruce = lp.getLongitudinalPlanSource();
+
+    vtcState = cereal::LongitudinalPlan::VisionTurnControllerState::TURNING;
+
+
     QColor vtc_color = tcs_colors[int(vtcState)];
     vtc_color.setAlpha(lpSoruce == cereal::LongitudinalPlan::LongitudinalPlanSource::TURN ? 255 : 100);
+
+   
+
 
     setProperty("showVTC", vtcState > cereal::LongitudinalPlan::VisionTurnControllerState::DISABLED);
     setProperty("vtcSpeed", QString::number(std::nearbyint(vtc_speed)));
@@ -100,6 +120,9 @@ void OnPaint::updateState(const UIState &s)
     setProperty("roadName", QString::fromStdString(lmd.getCurrentRoadName()));
 
     const float dSpeed = lp.getSpeedLimit() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
+
+    dSpeed = 50;
+
     const float speed_limit_offset = lp.getSpeedLimitOffset() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const auto slcState = lp.getSpeedLimitControlState();
     const bool sl_force_active = s.scene.osm.speed_limit_control_enabled && 
@@ -124,6 +147,8 @@ void OnPaint::updateState(const UIState &s)
     setProperty("slcActive", !sl_inactive && !sl_temp_inactive);
 
     const float tsc_speed = lp.getTurnSpeed() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
+    tsc_speed = 50;
+    
     const auto tscState = lp.getTurnSpeedControlState();
     const int t_distance = int(lp.getDistToTurn() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH) / 10.0) * 10;
     const QString t_distance_str(QString::number(t_distance) + (s.scene.is_metric ? "m" : "f"));
@@ -152,19 +177,17 @@ void OnPaint::updateState(const UIState &s)
    }
 
 
+    m_param.car_state = s.scene.car_state;
+    auto radar_state = sm["radarState"].getRadarState();  // radar
+    m_param.lead_radar = radar_state.getLeadOne();
+
     m_param.angleSteers = s.scene.car_state.getSteeringAngleDeg();
     m_param.angleSteersDes = s.scene.controls_state.getSteeringAngleDesiredDegDEPRECATED();
     if( memcmp( &m_param, &m_old, sizeof(m_param)) )
     {
        m_old = m_param;
-       //update(); 
+       update(); 
     }
-
-
-    m_param.car_state = s.scene.car_state;
-    auto radar_state = sm["radarState"].getRadarState();  // radar
-    m_param.lead_radar = radar_state.getLeadOne();
-
 }
 
 
