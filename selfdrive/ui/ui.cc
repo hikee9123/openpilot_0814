@@ -208,15 +208,15 @@ static void update_state(UIState *s) {
 
   // atom 
   float dGradient[2];
-  float dAcc = 0.01;
+
   for( int i= 0; i<2; i++)
   {
     dGradient[i] = gradient[i] - scene.scr.accel_prob[i];
-
-    if( fabs( dGradient[i] ) > 5 )  dAcc = 0.02;
-
-    if( dGradient[i] > 0 )  scene.scr.accel_prob[i] += dAcc;
-    else if( dGradient[i] < 0 ) scene.scr.accel_prob[i] -= dAcc;
+    
+    if( fabs( dGradient[i] ) < 0.5 ) 
+      scene.scr.accel_prob[i] += dGradient[i];
+    else
+      scene.scr.accel_prob[i] += dGradient[i] * 0.25;
   }
   
    if (sm.updated("gpsLocationExternal")) {
