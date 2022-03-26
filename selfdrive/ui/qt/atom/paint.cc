@@ -83,15 +83,8 @@ void OnPaint::updateState(const UIState &s)
     const auto vtcState = lp.getVisionTurnControllerState();
     const float vtc_speed = lp.getVisionTurnSpeed() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const auto lpSoruce = lp.getLongitudinalPlanSource();
-
-
-
-
     QColor vtc_color = tcs_colors[int(vtcState)];
     vtc_color.setAlpha(lpSoruce == cereal::LongitudinalPlan::LongitudinalPlanSource::TURN ? 255 : 100);
-
-   
-
 
     setProperty("showVTC", vtcState > cereal::LongitudinalPlan::VisionTurnControllerState::DISABLED);
     setProperty("vtcSpeed", QString::number(std::nearbyint(vtc_speed)));
@@ -102,10 +95,7 @@ void OnPaint::updateState(const UIState &s)
 
     setProperty("roadName", QString::fromStdString(lmd.getCurrentRoadName()));
 
-    float dSpeed = lp.getSpeedLimit() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
-
-    dSpeed = 50;
-
+    const float dSpeed = lp.getSpeedLimit() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const float speed_limit_offset = lp.getSpeedLimitOffset() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const auto slcState = lp.getSpeedLimitControlState();
     const bool sl_force_active = s.scene.osm.speed_limit_control_enabled && 
@@ -129,9 +119,7 @@ void OnPaint::updateState(const UIState &s)
     setProperty("mapSourcedSpeedLimit", lp.getIsMapSpeedLimit());
     setProperty("slcActive", !sl_inactive && !sl_temp_inactive);
 
-    float tsc_speed = lp.getTurnSpeed() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
-    tsc_speed = 50;
-
+    const float tsc_speed = lp.getTurnSpeed() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const auto tscState = lp.getTurnSpeedControlState();
     const int t_distance = int(lp.getDistToTurn() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH) / 10.0) * 10;
     const QString t_distance_str(QString::number(t_distance) + (s.scene.is_metric ? "m" : "f"));
@@ -208,124 +196,6 @@ float OnPaint::interp( float xv, float xp[], float fp[], int N)
 	return  dResult;
 }
 
-void OnPaint::drawCircle(QPainter &p, int x, int y, int r, QBrush bg) {
-  p.setPen(Qt::NoPen);
-  p.setBrush(bg);
-  p.drawEllipse(x - r, y - r, 2 * r, 2 * r);
-}
-
-void OnPaint::drawCenteredText(QPainter &p, int x, int y, const QString &text, QColor color) {
-  QFontMetrics fm(p.font());
-  QRect init_rect = fm.boundingRect(text);
-  QRect real_rect = fm.boundingRect(init_rect, 0, text);
-  real_rect.moveCenter({x, y});
-
-  p.setPen(color);
-  p.drawText(real_rect, Qt::AlignCenter, text);
-}
-
-void OnPaint::drawIcon(QPainter &p, int x, int y, QPixmap &img, QBrush bg, float opacity) {
-  p.setPen(Qt::NoPen);
-  p.setBrush(bg);
-  p.drawEllipse(x - radius / 2, y - radius / 2, radius, radius);
-  p.setOpacity(opacity);
-  p.drawPixmap(x - img_size / 2, y - img_size / 2, img);
-  p.setOpacity(1.0);
-}
-
-
-void OnPaint::drawVisionTurnControllerUI(QPainter &p, int x, int y, int size, const QColor &color, 
-                                           const QString &vision_speed, int alpha) {
-  QRect rvtc(x, y, size, size);
-  p.setPen(QPen(color, 10));
-  p.setBrush(QColor(0, 0, 0, alpha));
-  p.drawRoundedRect(rvtc, 20, 20);
-  p.setPen(Qt::NoPen);
-
-  configFont(p, "Open Sans", 56, "SemiBold");
-  drawCenteredText(p, rvtc.center().x(), rvtc.center().y(), vision_speed, color);
-}
-
-void OnPaint::drawSpeedSign(QPainter &p, QRect rc, const QString &strSpeed, const QString &sub_text, 
-                              int subtext_size, bool is_map_sourced, bool is_active) {
-  const QColor ring_color = is_active ? QColor(255, 0, 0, 255) : QColor(0, 0, 0, 50);
-  const QColor inner_color = QColor(255, 255, 255, is_active ? 255 : 85);
-  const QColor text_color = QColor(0, 0, 0, is_active ? 255 : 85);
-
-  const int x = rc.center().x();
-  const int y = rc.center().y();
-  const int r = rc.width() / 2.0f;
-
-  drawCircle(p, x, y, r, ring_color);
-  drawCircle(p, x, y, int(r * 0.8f), inner_color);
-
-  configFont(p, "Open Sans", 89, "Bold");
-  drawCenteredText(p, x, y, strSpeed, text_color);
-  configFont(p, "Open Sans", subtext_size, "Bold");
-  drawCenteredText(p, x, y + 55, sub_text, text_color);
-
-  if (is_map_sourced) {
-    p.setPen(Qt::NoPen);
-    p.setOpacity(is_active ? 1.0 : 0.3);
-    p.drawPixmap(x - img_size / 2, y - 55 - img_size / 2, map_img);
-    p.setOpacity(1.0);
-  }
-}
-
-
-void OnPaint::drawTrunSpeedSign(QPainter &p, QRect rc, const QString &turn_speed, const QString &sub_text, 
-                                  int curv_sign, bool is_active) {
-  const QColor border_color = is_active ? QColor(255, 0, 0, 255) : QColor(0, 0, 0, 50);
-  const QColor inner_color = QColor(255, 255, 255, is_active ? 255 : 85);
-  const QColor text_color = QColor(0, 0, 0, is_active ? 255 : 85);
-
-  const int x = rc.center().x();
-  const int y = rc.center().y();
-  const int width = rc.width();
-
-  const float stroke_w = 15.0;
-  const float cS = stroke_w / 2.0 + 4.5;  // half width of the stroke on the corners of the triangle
-  const float R = width / 2.0 - stroke_w / 2.0;
-  const float A = 0.73205;
-  const float h2 = 2.0 * R / (1.0 + A);
-  const float h1 = A * h2;
-  const float L = 4.0 * R / sqrt(3.0);
-
-  // Draw the internal triangle, compensate for stroke width. Needed to improve rendering when in inactive 
-  // state due to stroke transparency being different from inner transparency.
-  QPainterPath path;
-  path.moveTo(x, y - R + cS);
-  path.lineTo(x - L / 2.0 + cS, y + h1 + h2 - R - stroke_w / 2.0);
-  path.lineTo(x + L / 2.0 - cS, y + h1 + h2 - R - stroke_w / 2.0);
-  path.lineTo(x, y - R + cS);
-  p.setPen(Qt::NoPen);
-  p.setBrush(inner_color);
-  p.drawPath(path);
-  
-  // Draw the stroke
-  QPainterPath stroke_path;
-  stroke_path.moveTo(x, y - R);
-  stroke_path.lineTo(x - L / 2.0, y + h1 + h2 - R);
-  stroke_path.lineTo(x + L / 2.0, y + h1 + h2 - R);
-  stroke_path.lineTo(x, y - R);
-  p.setPen(QPen(border_color, stroke_w, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-  p.setBrush(Qt::NoBrush);
-  p.drawPath(stroke_path);
-
-  // Draw the turn sign
-  if (curv_sign != 0) {
-    p.setPen(Qt::NoPen);
-    p.setOpacity(is_active ? 1.0 : 0.3);
-    p.drawPixmap(int(x - (img_size / 2)), int(y - R + stroke_w + 30), curv_sign > 0 ? left_img : right_img);
-    p.setOpacity(1.0);
-  }
-
-  // Draw the texts.
-  configFont(p, "Open Sans", 67, "Bold");
-  drawCenteredText(p, x, y + 25, turn_speed, text_color);
-  configFont(p, "Open Sans", 22, "Bold");
-  drawCenteredText(p, x, y + 65, sub_text, text_color);
-}
 
 void OnPaint::paintEvent(QPaintEvent *event) 
 {
@@ -335,35 +205,7 @@ void OnPaint::paintEvent(QPaintEvent *event)
   bb_ui_draw_UI( p );
   ui_main_navi( p );
 
-  showVTC  = 1;
-  vtcSpeed = "40";
-
-  QRect rc(bdr_s + 200, bdr_s * 1.5, 184, 202);
-  if (showDebugUI && showVTC) {
-    drawVisionTurnControllerUI(p, rect().right() - 184 - bdr_s, int(bdr_s * 1.5), 184, vtcColor, vtcSpeed, 100);
-  } 
-
-  // Speed Limit Sign
-  if (showSpeedLimit) {
-    drawSpeedSign(p, speed_sgn_rc, speedLimit, slcSubText, slcSubTextSize, mapSourcedSpeedLimit, slcActive);
-  }
-
-  // Turn Speed Sign
-  if (showTurnSpeedLimit) {
-    rc.moveTop(speed_sgn_rc.bottom() + bdr_s);
-    drawTrunSpeedSign(p, rc, turnSpeedLimit, tscSubText, curveSign, tscActive);
-  }
-
-
-  // Bottom bar road name
-  if (showDebugUI && !roadName.isEmpty()) {
-    const int h = 160;
-    QRect bar_rc(rect().left(), rect().bottom() - h, rect().width(), 60);
-    p.setBrush(QColor(0, 0, 0, 100));
-    p.drawRect(bar_rc);
-    configFont(p, "Open Sans", 38, "Bold");
-    drawCenteredText(p, bar_rc.center().x(), bar_rc.center().y(), roadName, QColor(255, 255, 255, 200));
-  }  
+  ui_osm_draw( p );
 
 }
 
@@ -1049,4 +891,156 @@ void OnPaint::ui_main_navi( QPainter &p )
   ui_draw_navi( p );
 
   ui_draw_debug1( p );
+}
+
+// OSM
+
+void OnPaint::drawCircle(QPainter &p, int x, int y, int r, QBrush bg) {
+  p.setPen(Qt::NoPen);
+  p.setBrush(bg);
+  p.drawEllipse(x - r, y - r, 2 * r, 2 * r);
+}
+
+void OnPaint::drawCenteredText(QPainter &p, int x, int y, const QString &text, QColor color) {
+  QFontMetrics fm(p.font());
+  QRect init_rect = fm.boundingRect(text);
+  QRect real_rect = fm.boundingRect(init_rect, 0, text);
+  real_rect.moveCenter({x, y});
+
+  p.setPen(color);
+  p.drawText(real_rect, Qt::AlignCenter, text);
+}
+
+void OnPaint::drawIcon(QPainter &p, int x, int y, QPixmap &img, QBrush bg, float opacity) {
+  p.setPen(Qt::NoPen);
+  p.setBrush(bg);
+  p.drawEllipse(x - radius / 2, y - radius / 2, radius, radius);
+  p.setOpacity(opacity);
+  p.drawPixmap(x - img_size / 2, y - img_size / 2, img);
+  p.setOpacity(1.0);
+}
+
+
+void OnPaint::drawVisionTurnControllerUI(QPainter &p, int x, int y, int size, const QColor &color, 
+                                           const QString &vision_speed, int alpha) {
+  QRect rvtc(x, y, size, size);
+  p.setPen(QPen(color, 10));
+  p.setBrush(QColor(0, 0, 0, alpha));
+  p.drawRoundedRect(rvtc, 20, 20);
+  p.setPen(Qt::NoPen);
+
+  configFont(p, "Open Sans", 56, "SemiBold");
+  drawCenteredText(p, rvtc.center().x(), rvtc.center().y(), vision_speed, color);
+}
+
+void OnPaint::drawSpeedSign(QPainter &p, QRect rc, const QString &strSpeed, const QString &sub_text, 
+                              int subtext_size, bool is_map_sourced, bool is_active) {
+  const QColor ring_color = is_active ? QColor(255, 0, 0, 255) : QColor(0, 0, 0, 50);
+  const QColor inner_color = QColor(255, 255, 255, is_active ? 255 : 85);
+  const QColor text_color = QColor(0, 0, 0, is_active ? 255 : 85);
+
+  const int x = rc.center().x();
+  const int y = rc.center().y();
+  const int r = rc.width() / 2.0f;
+
+  drawCircle(p, x, y, r, ring_color);
+  drawCircle(p, x, y, int(r * 0.8f), inner_color);
+
+  configFont(p, "Open Sans", 89, "Bold");
+  drawCenteredText(p, x, y, strSpeed, text_color);
+  configFont(p, "Open Sans", subtext_size, "Bold");
+  drawCenteredText(p, x, y + 55, sub_text, text_color);
+
+  if (is_map_sourced) {
+    p.setPen(Qt::NoPen);
+    p.setOpacity(is_active ? 1.0 : 0.3);
+    p.drawPixmap(x - img_size / 2, y - 55 - img_size / 2, map_img);
+    p.setOpacity(1.0);
+  }
+}
+
+
+void OnPaint::drawTrunSpeedSign(QPainter &p, QRect rc, const QString &turn_speed, const QString &sub_text, 
+                                  int curv_sign, bool is_active) {
+  const QColor border_color = is_active ? QColor(255, 0, 0, 255) : QColor(0, 0, 0, 50);
+  const QColor inner_color = QColor(255, 255, 255, is_active ? 255 : 85);
+  const QColor text_color = QColor(0, 0, 0, is_active ? 255 : 85);
+
+  const int x = rc.center().x();
+  const int y = rc.center().y();
+  const int width = rc.width();
+
+  const float stroke_w = 15.0;
+  const float cS = stroke_w / 2.0 + 4.5;  // half width of the stroke on the corners of the triangle
+  const float R = width / 2.0 - stroke_w / 2.0;
+  const float A = 0.73205;
+  const float h2 = 2.0 * R / (1.0 + A);
+  const float h1 = A * h2;
+  const float L = 4.0 * R / sqrt(3.0);
+
+  // Draw the internal triangle, compensate for stroke width. Needed to improve rendering when in inactive 
+  // state due to stroke transparency being different from inner transparency.
+  QPainterPath path;
+  path.moveTo(x, y - R + cS);
+  path.lineTo(x - L / 2.0 + cS, y + h1 + h2 - R - stroke_w / 2.0);
+  path.lineTo(x + L / 2.0 - cS, y + h1 + h2 - R - stroke_w / 2.0);
+  path.lineTo(x, y - R + cS);
+  p.setPen(Qt::NoPen);
+  p.setBrush(inner_color);
+  p.drawPath(path);
+  
+  // Draw the stroke
+  QPainterPath stroke_path;
+  stroke_path.moveTo(x, y - R);
+  stroke_path.lineTo(x - L / 2.0, y + h1 + h2 - R);
+  stroke_path.lineTo(x + L / 2.0, y + h1 + h2 - R);
+  stroke_path.lineTo(x, y - R);
+  p.setPen(QPen(border_color, stroke_w, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+  p.setBrush(Qt::NoBrush);
+  p.drawPath(stroke_path);
+
+  // Draw the turn sign
+  if (curv_sign != 0) {
+    p.setPen(Qt::NoPen);
+    p.setOpacity(is_active ? 1.0 : 0.3);
+    p.drawPixmap(int(x - (img_size / 2)), int(y - R + stroke_w + 30), curv_sign > 0 ? left_img : right_img);
+    p.setOpacity(1.0);
+  }
+
+  // Draw the texts.
+  configFont(p, "Open Sans", 67, "Bold");
+  drawCenteredText(p, x, y + 25, turn_speed, text_color);
+  configFont(p, "Open Sans", 22, "Bold");
+  drawCenteredText(p, x, y + 65, sub_text, text_color);
+}
+
+void OnPaint::ui_osm_draw( QPainter &p ) 
+{
+  QRect rc(bdr_s + 200, bdr_s * 1.5, 184, 202);
+  
+  if (showDebugUI && showVTC) {
+    drawVisionTurnControllerUI(p, rect().right() - 184 - bdr_s, int(bdr_s * 1.5), 184, vtcColor, vtcSpeed, 100);
+  } 
+
+  // Speed Limit Sign
+  if (showSpeedLimit) {
+    drawSpeedSign(p, speed_sgn_rc, speedLimit, slcSubText, slcSubTextSize, mapSourcedSpeedLimit, slcActive);
+  }
+
+  // Turn Speed Sign
+  if (showTurnSpeedLimit) {
+    rc.moveTop(speed_sgn_rc.bottom() + bdr_s);
+    drawTrunSpeedSign(p, rc, turnSpeedLimit, tscSubText, curveSign, tscActive);
+  }
+
+
+  // Bottom bar road name
+  if (showDebugUI && !roadName.isEmpty()) {
+    const int h = 160;
+    QRect bar_rc(rect().left(), rect().bottom() - h, rect().width(), 60);
+    p.setBrush(QColor(0, 0, 0, 100));
+    p.drawRect(bar_rc);
+    configFont(p, "Open Sans", 38, "Bold");
+    drawCenteredText(p, bar_rc.center().x(), bar_rc.center().y(), roadName, QColor(255, 255, 255, 200));
+  }  
 }

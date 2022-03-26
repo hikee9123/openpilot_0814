@@ -140,6 +140,7 @@ private:
   void drawTrunSpeedSign(QPainter &p, QRect rc, const QString &speed, const QString &sub_text, int curv_sign, 
                          bool is_active);
 
+  void ui_osm_draw( QPainter &p );
 
 // navi
 private:
