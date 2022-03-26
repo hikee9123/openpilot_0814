@@ -225,6 +225,7 @@ struct CarState {
     cruiseSwState @7 :Int16;
     accActive @8 :Bool;
     gapSet @9 :Int16;
+    speedLimit @10 :Float32;  
   }
 
   enum GearShifter {
