@@ -29,7 +29,7 @@ private:
   UIScene  *scene;
 
   int   invalidate = 0;
-  double  prev_draw_t;
+
 
  
   struct _PARAM_

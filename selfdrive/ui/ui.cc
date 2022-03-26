@@ -153,6 +153,10 @@ static void update_state(UIState *s) {
     scene.longitudinal_control |= sm["carParams"].getCarParams().getAtompilotLongitudinalControl();
   }
  // if (!scene.started && sm.updated("sensorEvents")) {
+
+  float  gradient[2];
+  gradient[0] = scene.scr.accel_prob[0];
+  gradient[1] = scene.scr.accel_prob[1];
   if ( sm.updated("sensorEvents")) {
     for (auto sensor : sm["sensorEvents"].getSensorEvents()) {
       if (sensor.which() == cereal::SensorEventData::ACCELERATION) {
@@ -160,8 +164,8 @@ static void update_state(UIState *s) {
         if (accel.totalSize().wordCount) { // TODO: sometimes empty lists are received. Figure out why
           scene.accel_sensor = accel[2];
 
-          scene.scr.accel_prob[0] = atan(accel[2]/accel[0]) * (180 / M_PI); // back and forth
-          scene.scr.accel_prob[1] = atan(accel[1]/accel[0]) * (180 / M_PI); // right and left          
+          gradient[0] = atan(accel[2]/accel[0]) * (180 / M_PI); // back and forth
+          gradient[1] = atan(accel[1]/accel[0]) * (180 / M_PI); // right and left          
         }
       } else if (sensor.which() == cereal::SensorEventData::GYRO_UNCALIBRATED) {
         auto gyro = sensor.getGyroUncalibrated().getV();
@@ -203,6 +207,18 @@ static void update_state(UIState *s) {
 
 
   // atom 
+  float dGradient[2];
+  float dAcc = 0.01;
+  for( int i= 0; i<2; i++)
+  {
+    dGradient[i] = gradient[i] - scene.scr.accel_prob[i];
+
+    if( fabs( dGradient[i] ) > 5 )  dAcc = 0.02;
+
+    if( dGradient[i] > 0 )  scene.scr.accel_prob[i] += dAcc;
+    else if( dGradient[i] < 0 ) scene.scr.accel_prob[i] -= dAcc;
+  }
+  
    if (sm.updated("gpsLocationExternal")) {
     scene.gpsLocationExternal = sm["gpsLocationExternal"].getGpsLocationExternal();
    }

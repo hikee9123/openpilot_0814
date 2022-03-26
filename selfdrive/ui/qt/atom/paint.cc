@@ -68,13 +68,9 @@ OnPaint::OnPaint(QWidget *parent) : QWidget(parent)
 
 void OnPaint::updateState(const UIState &s)
 {
-  double cur_draw_t = millis_since_boot();
-  double dt = cur_draw_t - prev_draw_t;
-  if (dt < 100)  return;
-  prev_draw_t = cur_draw_t;
 
   SubMaster &sm = *(s.sm);
-
+  if (sm.frame % (UI_FREQ / 2) != 0) return;
 
     auto gps_ext = s.scene.gpsLocationExternal;
     m_param.gpsAccuracyUblox = gps_ext.getAccuracy();
@@ -93,25 +89,19 @@ void OnPaint::updateState(const UIState &s)
      m_param.cpuTemp = maxCpuTemp[0];      
    }
 
-
     m_param.angleSteers = s.scene.car_state.getSteeringAngleDeg();
     m_param.angleSteersDes = s.scene.controls_state.getSteeringAngleDesiredDegDEPRECATED();
-
 
     m_param.car_state = s.scene.car_state;
     auto radar_state = sm["radarState"].getRadarState();  // radar
     m_param.lead_radar = radar_state.getLeadOne();
 
-
-
     if( memcmp( &m_param, &m_old, sizeof(m_param)) )
     {
        m_old = m_param;
        update(); 
-       invalidate++;
     }
-    if( invalidate > 99 )
-       invalidate = 1;
+
    // setProperty("invalidate", invalidate );
 }
 
@@ -523,7 +513,7 @@ void OnPaint::bb_ui_draw_measures_left(QPainter &p, int bb_x, int bb_y, int bb_w
     val_str.sprintf("%.1f", scene->scr.accel_prob[0]);  // BF
     uom_str.sprintf("%.1f", scene->scr.accel_prob[1]);  // RL
     //uom_str = "";
-    bb_h +=bb_ui_draw_measure(p,  val_str, uom_str, "angle",
+    bb_h +=bb_ui_draw_measure(p,  val_str, uom_str, "GRADIENT",
       bb_rx, bb_ry, bb_uom_dx,
       val_color, lab_color, uom_color,
       value_fontSize, label_fontSize, uom_fontSize );
