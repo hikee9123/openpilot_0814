@@ -102,8 +102,6 @@ void OnPaint::updateState(const UIState &s)
 
     setProperty("roadName", QString::fromStdString(lmd.getCurrentRoadName()));
 
-    setProperty("roadName", "QString::fromStdString(lmd.getCurrentRoadName())" );
-
     float dSpeed = lp.getSpeedLimit() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
 
     dSpeed = 50;
@@ -337,6 +335,8 @@ void OnPaint::paintEvent(QPaintEvent *event)
   bb_ui_draw_UI( p );
   ui_main_navi( p );
 
+  showVTC  = 1;
+  vtcSpeed = "40";
 
   QRect rc(bdr_s + 200, bdr_s * 1.5, 184, 202);
   if (showDebugUI && showVTC) {
