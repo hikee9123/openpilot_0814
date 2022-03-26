@@ -82,18 +82,11 @@ void OnPaint::updateState(const UIState &s)
   if (sm.frame % (UI_FREQ / 2) != 0) return;
 
 
-  //showVTC
-  // Speed Limit Sign
-  //showSpeedLimit
-  // Turn Speed Sign
-  //showTurnSpeedLimit
-
-
 
     float cur_speed = sm["carState"].getCarState().getVEgo() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
 
     const auto lp = sm["longitudinalPlan"].getLongitudinalPlan();
-    const auto vtcState = p.getVisionTurnControllerState();
+    const auto vtcState = lp.getVisionTurnControllerState();
     const float vtc_speed = lp.getVisionTurnSpeed() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const auto lpSoruce = lp.getLongitudinalPlanSource();
 
