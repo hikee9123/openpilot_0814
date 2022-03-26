@@ -212,7 +212,7 @@ static void update_state(UIState *s) {
   {
     dG[i] = gradient[i] - scene.scr.accel_prob[i];
     
-    if( fabs( dG[i] ) < 0.5 ) 
+    if( fabs( dG[i] ) < 1 ) 
       scene.scr.accel_prob[i] += dG[i];
     else
       scene.scr.accel_prob[i] += dG[i] * 0.25;
