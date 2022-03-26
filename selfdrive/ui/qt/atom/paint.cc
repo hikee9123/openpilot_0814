@@ -97,7 +97,7 @@ void OnPaint::updateState(const UIState &s)
     const float vtc_speed = lp.getVisionTurnSpeed() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const auto lpSoruce = lp.getLongitudinalPlanSource();
 
-    vtcState = cereal::LongitudinalPlan::VisionTurnControllerState::TURNING;
+    vtcState = 2;
 
 
     QColor vtc_color = tcs_colors[int(vtcState)];
@@ -115,7 +115,7 @@ void OnPaint::updateState(const UIState &s)
 
     setProperty("roadName", QString::fromStdString(lmd.getCurrentRoadName()));
 
-    const float dSpeed = lp.getSpeedLimit() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
+    float dSpeed = lp.getSpeedLimit() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
 
     dSpeed = 50;
 
@@ -142,7 +142,7 @@ void OnPaint::updateState(const UIState &s)
     setProperty("mapSourcedSpeedLimit", lp.getIsMapSpeedLimit());
     setProperty("slcActive", !sl_inactive && !sl_temp_inactive);
 
-    const float tsc_speed = lp.getTurnSpeed() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
+    float tsc_speed = lp.getTurnSpeed() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     tsc_speed = 50;
 
     const auto tscState = lp.getTurnSpeedControlState();
