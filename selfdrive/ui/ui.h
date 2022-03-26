@@ -23,7 +23,7 @@ const int UI_FREQ = 20;   // Hz
 typedef cereal::CarControl::HUDControl::AudibleAlert AudibleAlert;
 
 // osm
-const QRect speed_sgn_rc(bdr_s * 2, bdr_s * 2.5 + 202, 184, 184);
+const QRect speed_sgn_rc(bdr_s + 150, bdr_s * 2.5 + 202, 184, 184);
 
 
 const QColor tcs_colors [] = {
