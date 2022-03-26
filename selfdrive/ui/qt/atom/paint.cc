@@ -76,11 +76,11 @@ void OnPaint::updateState(const UIState &s)
   if (dt < 100)  return;
   prev_draw_t = cur_draw_t;
 
-  SubMaster &sm = *(s.sm);
+
 
   // update engageability and DM icons at 2Hz
   if (sm.frame % (UI_FREQ / 2) != 0) return;
-
+  SubMaster &sm = *(s.sm);
 
 
     float cur_speed = sm["carState"].getCarState().getVEgo() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
@@ -106,7 +106,7 @@ void OnPaint::updateState(const UIState &s)
 
     const auto lmd = sm["liveMapData"].getLiveMapData();
 
-    //setProperty("roadName", QString::fromStdString(lmd.getCurrentRoadName()));
+    setProperty("roadName", QString::fromStdString(lmd.getCurrentRoadName()));
 
     setProperty("roadName", "QString::fromStdString(lmd.getCurrentRoadName())" );
 
