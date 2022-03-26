@@ -357,8 +357,8 @@ void OnPaint::paintEvent(QPaintEvent *event)
 
   // Bottom bar road name
   if (showDebugUI && !roadName.isEmpty()) {
-    const int h = 60;
-    QRect bar_rc(rect().left(), rect().bottom() - h, rect().width(), h);
+    const int h = 160;
+    QRect bar_rc(rect().left(), rect().bottom() - h, rect().width(), 60);
     p.setBrush(QColor(0, 0, 0, 100));
     p.drawRect(bar_rc);
     configFont(p, "Open Sans", 38, "Bold");
