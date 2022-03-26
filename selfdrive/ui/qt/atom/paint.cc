@@ -336,15 +336,13 @@ void OnPaint::drawTrunSpeedSign(QPainter &p, QRect rc, const QString &turn_speed
 void OnPaint::paintEvent(QPaintEvent *event) 
 {
   QPainter p(this);
-  //p.setRenderHint(QPainter::Antialiasing);
 
-//  printf( "OnPaint::paintEvent" );
 
   bb_ui_draw_UI( p );
   ui_main_navi( p );
 
 
-  QRect rc(bdr_s * 2, bdr_s * 1.5, 184, 202);
+  QRect rc(bdr_s + 200, bdr_s * 1.5, 184, 202);
   if (showDebugUI && showVTC) {
     drawVisionTurnControllerUI(p, rect().right() - 184 - bdr_s, int(bdr_s * 1.5), 184, vtcColor, vtcSpeed, 100);
   } 
