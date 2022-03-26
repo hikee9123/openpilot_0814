@@ -104,7 +104,7 @@ void OnPaint::updateState(const UIState &s)
     setProperty("vtcColor", vtc_color);
     setProperty("showDebugUI", s.scene.show_debug_ui);  // OpkrShowDebugUI
 
-    const auto lmd = sm["liveMapData"].getLiveMapData();
+    const auto lmd = "getCurrentRoadName";  //sm["liveMapData"].getLiveMapData();
 
     setProperty("roadName", QString::fromStdString(lmd.getCurrentRoadName()));
 
