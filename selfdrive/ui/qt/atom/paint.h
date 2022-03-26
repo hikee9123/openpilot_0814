@@ -48,9 +48,7 @@ private:
   UIScene  *scene;
 
 
-  double  prev_draw_t;
 
- 
   struct _PARAM_
   {
     int   bbh_left;

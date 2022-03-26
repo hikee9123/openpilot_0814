@@ -71,19 +71,13 @@ OnPaint::OnPaint(QWidget *parent) : QWidget(parent)
 
 void OnPaint::updateState(const UIState &s)
 {
-  double cur_draw_t = millis_since_boot();
-  double dt = cur_draw_t - prev_draw_t;
-  if (dt < 100)  return;
-  prev_draw_t = cur_draw_t;
-
-
-
+   SubMaster &sm = *(s.sm); 
   // update engageability and DM icons at 2Hz
   if (sm.frame % (UI_FREQ / 2) != 0) return;
-  SubMaster &sm = *(s.sm);
 
 
-    float cur_speed = sm["carState"].getCarState().getVEgo() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
+    const float vEgo = s.scene.car_state.getVEgo();
+    float cur_speed = vEgo * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
 
     const auto lp = sm["longitudinalPlan"].getLongitudinalPlan();
     const auto vtcState = lp.getVisionTurnControllerState();
