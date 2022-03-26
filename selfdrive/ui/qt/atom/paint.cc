@@ -93,7 +93,7 @@ void OnPaint::updateState(const UIState &s)
     float cur_speed = sm["carState"].getCarState().getVEgo() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
 
     const auto lp = sm["longitudinalPlan"].getLongitudinalPlan();
-    const auto vtcState = 2; //lp.getVisionTurnControllerState();
+    const auto vtcState = p.getVisionTurnControllerState();
     const float vtc_speed = lp.getVisionTurnSpeed() * (s.scene.is_metric ? MS_TO_KPH : MS_TO_MPH);
     const auto lpSoruce = lp.getLongitudinalPlanSource();
 
