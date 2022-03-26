@@ -312,7 +312,7 @@ class CarState(CarStateBase):
 
 
     # osm
-    ret.cruiseState.speedLimit = ret.cruiseState.speed
+    ret.cruiseState.speedLimit = cp.vl["Navi_HU"]["SpeedLim_Nav_Clu"]
     return ret
 
   @staticmethod
@@ -388,6 +388,8 @@ class CarState(CarStateBase):
       ("PRESSURE_FR", "TPMS11"),
       ("PRESSURE_RL", "TPMS11"),
       ("PRESSURE_RR", "TPMS11"),
+
+      ("SpeedLim_Nav_Clu", "Navi_HU"),
     ]
 
     checks = [
