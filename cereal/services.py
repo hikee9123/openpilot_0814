@@ -69,7 +69,8 @@ services = {
 
 # atom
   "liveNaviData": (True, 0.),
-
+  "liveMapData": (True, 0.),  # osm
+  
   # debug
   "testJoystick": (False, 0.),
 }
