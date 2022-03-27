@@ -215,7 +215,7 @@ static void update_state(UIState *s) {
     if( fabs( dG[i] ) < 1 ) 
       scene.scr.accel_prob[i] += dG[i];
     else
-      scene.scr.accel_prob[i] += dG[i] * 0.25;
+      scene.scr.accel_prob[i] += dG[i] * 0.05;
   }
   
    if (sm.updated("gpsLocationExternal")) {
