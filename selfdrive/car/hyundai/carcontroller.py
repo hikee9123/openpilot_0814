@@ -33,7 +33,7 @@ class CarController():
     self.lkas11_cnt = 0
     self.scc12_cnt = 0
     self.NC = NaviControl(self.params)
-
+    self.cut_in_car_alert = False
 
     
 
@@ -111,6 +111,11 @@ class CarController():
 
   def update_debug(self, CS, c ):
     cut_in = self.NC.get_cut_in_car()
+    if abs(cut_in) > 3:
+      self.cut_in_car_alert = True
+    else:
+      self.cut_in_car_alert = False
+
     actuators = c.actuators
     vFuture = c.hudControl.vFuture * 3.6
     str_log1 = 'MODE={:.0f} vF={:.1f} gas={:.2f}'.format( CS.cruise_set_mode, vFuture, CS.out.gas )
