@@ -555,7 +555,7 @@ class Controls:
 
       if len( lat_plan.curvatures):
         len_psis = len(lat_plan.psis)
-        str_log1 = '{:.0f} curvatures={:.7f} '.format( len_psis, lat_plan.curvatures[0] )
+        str_log1 = '{:.0f} psis={:.7f} curvatures={:.7f} '.format( len_psis, lat_plan.psis, lat_plan.curvatures[0] )
         trace1.printf1( '{}'.format( str_log1 ) )
 
       # Steering PID loop and lateral MPC
