@@ -200,7 +200,7 @@ class Controls:
         steerRatio = learnerSteerRatio * dRate
         str_log1 = '{:3.0f} lsR={:8.3f}'.format( modelSpeed, steerRatio )
         #trace1.global_alertTextMsg1 = str_log1
-        #trace1.printf1( '{}'.format( str_log1 ) )
+        trace1.printf1( '{}'.format( str_log1 ) )
     steerRatio = clip( steerRatio, 13.5, 19.5 )
 
     return steerRatio
@@ -553,11 +553,7 @@ class Controls:
       t_since_plan = (self.sm.frame - self.sm.rcv_frame['longitudinalPlan']) * DT_CTRL
       actuators.accel = self.LoC.update(CC.longActive, CS, self.CP, long_plan, pid_accel_limits, t_since_plan)
 
-
-      len_psis = len(lat_plan.psis)
-      str_log1 = '{:.0f} curvatures={:.7f} '.format( len_psis, lat_plan.curvatures[0] )
-      trace1.printf1( '{}'.format( str_log1 ) )
-
+     
       # Steering PID loop and lateral MPC
       desired_curvature, desired_curvature_rate = get_lag_adjusted_curvature(self.CP, CS.vEgo,
                                                                              lat_plan.psis,

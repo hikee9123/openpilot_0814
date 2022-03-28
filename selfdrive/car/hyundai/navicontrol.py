@@ -145,7 +145,7 @@ class NaviControl():
       leads_v3 = model_v2.leadsV3
 
       if len(leads_v3) > 1:
-        if leads_v3[1].prob > 0.2:
+        if leads_v3[1].prob > 0.5:
           cut_in = leads_v3[0].x[0] - leads_v3[1].x[0]  # > 3
       
       return cut_in
@@ -170,7 +170,7 @@ class NaviControl():
       return  cruise_set_speed_kph
     elif v_ego_kph < 80:
       if speedLimit <= 60:
-        spdTarget = interp( speedLimitDistance, [80, 600], [ speedLimit, speedLimit + 50 ] )
+        spdTarget = interp( speedLimitDistance, [150, 600], [ speedLimit, speedLimit + 30 ] )
       else:      
         spdTarget = interp( speedLimitDistance, [200, 800], [ speedLimit, speedLimit + 50 ] )
     elif speedLimitDistance >= 50:
