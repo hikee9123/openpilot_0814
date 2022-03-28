@@ -553,7 +553,7 @@ class Controls:
       t_since_plan = (self.sm.frame - self.sm.rcv_frame['longitudinalPlan']) * DT_CTRL
       actuators.accel = self.LoC.update(CC.longActive, CS, self.CP, long_plan, pid_accel_limits, t_since_plan)
 
-
+      if len( lat_plan.curvatures):
       len_psis = len(lat_plan.psis)
       str_log1 = '{:.0f} curvatures={:.7f} '.format( len_psis, lat_plan.curvatures[0] )
       trace1.printf1( '{}'.format( str_log1 ) )
