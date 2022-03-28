@@ -34,7 +34,7 @@ class CarController():
     self.scc12_cnt = 0
     self.NC = NaviControl(self.params)
     self.cut_in_car_alert = False
-
+    self.cut_in_car_time = 0
     
 
     # hud
@@ -112,9 +112,16 @@ class CarController():
   def update_debug(self, CS, c ):
     cut_in = self.NC.get_cut_in_car()
     if abs(cut_in) > 3:
+      self.cut_in_car_time += 1
+    else:
+      self.cut_in_car_time = 0
+      
+
+    if self.cut_in_car_time > 10:
       self.cut_in_car_alert = True
     else:
       self.cut_in_car_alert = False
+
 
     actuators = c.actuators
     vFuture = c.hudControl.vFuture * 3.6
