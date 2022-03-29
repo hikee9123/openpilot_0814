@@ -111,7 +111,7 @@ def get_lag_adjusted_curvature(CP, v_ego, psis, curvatures, curvature_rates):
 
   if v_ego < 3:
     #current_curvature = moveAvg.get_min(curvatures[0], 5)
-    current_curvature = moveAvg.get_avg(curvatures[0], 5)
+    current_curvature = moveAvg.get_avg(curvatures[0], 3)
   else:
     current_curvature = curvatures[0]
 
