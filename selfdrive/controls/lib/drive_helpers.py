@@ -24,11 +24,9 @@ MAX_LATERAL_JERK = 5.0
 MAX_LATERAL_JERKS = [0, 0.0000001, 5]
 MAX_LATERAL_JERK_SPEEDS = [0, 10*CV.KPH_TO_MS, 50*CV.KPH_TO_MS]
 
-
 moveAvg = mvAvg.MoveAvg()
 
-STEER_ACTUATOR_DELAYS =[1, 0.8, 0.1, 0]
-STEER_ACTUATOR_DELAY_SPEEDS = [0, 20*CV.KPH_TO_MS, 50*CV.KPH_TO_MS, 100*CV.KPH_TO_MS]
+
 
 
 CRUISE_LONG_PRESS = 50
@@ -109,13 +107,11 @@ def get_lag_adjusted_curvature(CP, v_ego, psis, curvatures, curvature_rates):
     curvature_rates = [0.0]*CONTROL_N
 
   # TODO this needs more thought, use .2s extra for now to estimate other delays
-  steerActuatorDelay = interp(v_ego, STEER_ACTUATOR_DELAY_SPEEDS, STEER_ACTUATOR_DELAYS )
-  delay = steerActuatorDelay + .2
-  #delay = CP.steerActuatorDelay + .2
+  delay = CP.steerActuatorDelay + .2
 
   if v_ego < 3:
     #current_curvature = moveAvg.get_min(curvatures[0], 5)
-    current_curvature = moveAvg.get_avg(curvatures[0], 10)
+    current_curvature = moveAvg.get_avg(curvatures[0], 5)
   else:
     current_curvature = curvatures[0]
 
