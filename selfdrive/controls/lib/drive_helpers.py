@@ -5,6 +5,8 @@ from common.realtime import DT_MDL
 from common.conversions import Conversions as CV
 from selfdrive.modeld.constants import T_IDXS
 
+import common.MoveAvg as mvAvg
+
 # WARNING: this value was determined based on the model's training distribution,
 #          model predictions above this speed can be unpredictable
 V_CRUISE_MAX = 145  # kph
@@ -22,8 +24,8 @@ MAX_LATERAL_JERK = 5.0
 MAX_LATERAL_JERKS = [0, 0.0000001, 5]
 MAX_LATERAL_JERK_SPEEDS = [0, 10*CV.KPH_TO_MS, 50*CV.KPH_TO_MS]
 
-old_current_curvature = 0
 
+moveAvg = mvAvg.MoveAvg()
 
 STEER_ACTUATOR_DELAYS =[1, 0.8, 0.1, 0]
 STEER_ACTUATOR_DELAY_SPEEDS = [0, 20*CV.KPH_TO_MS, 50*CV.KPH_TO_MS, 100*CV.KPH_TO_MS]
@@ -112,8 +114,8 @@ def get_lag_adjusted_curvature(CP, v_ego, psis, curvatures, curvature_rates):
   #delay = CP.steerActuatorDelay + .2
 
   if v_ego < 3:
-    current_curvature = (curvatures[0] + old_current_curvature) * 0.5
-    old_current_curvature = curvatures[0]
+    #current_curvature = moveAvg.get_min(curvatures[0], 5)
+    current_curvature = moveAvg.get_avg(curvatures[0], 10)
   else:
     current_curvature = curvatures[0]
 
