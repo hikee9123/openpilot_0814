@@ -216,8 +216,8 @@ static void update_state(UIState *s) {
       scene.scr.accel_prob[i] += dG[i];
     else
     {
-      if( dG[i] > 0 ) scene.scr.accel_prob[i] += 0.01;
-      else scene.scr.accel_prob[i] -= 0.01;
+      if( dG[i] > 0 ) scene.scr.accel_prob[i] += 0.005;
+      else scene.scr.accel_prob[i] -= 0.005;
     }
       
   }

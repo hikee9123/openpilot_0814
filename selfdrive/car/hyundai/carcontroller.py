@@ -117,7 +117,7 @@ class CarController():
       self.cut_in_car_time = 0
       
 
-    if self.cut_in_car_time > 10:
+    if self.cut_in_car_time > 20:
       self.cut_in_car_alert = True
     else:
       self.cut_in_car_alert = False
