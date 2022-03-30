@@ -149,7 +149,7 @@ class NaviControl():
       if len(leads_v3) > 1:
         if leads_v3[0].prob > 0.5 and leads_v3[1].prob > 0.5:
           cut_in = leads_v3[0].x[0] - leads_v3[1].x[0]  # > 3
-      
+
       return cut_in
 
 
