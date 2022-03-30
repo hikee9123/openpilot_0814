@@ -117,12 +117,12 @@ class NaviControl():
     self.curr_speed = CS.out.vEgo * CV.MS_TO_KPH
     self.VSetDis   = CS.VSetDis
     btn_signal = self.switch( self.seq_command )
-
     return btn_signal
 
   def get_forword_car_speed( self, CS,  cruiseState_speed):
-    self.lead_0 = self.sm['radarState'].leadOne
-    self.lead_1 = self.sm['radarState'].leadTwo
+    radarState = self.sm['radarState']
+    self.lead_0 = radarState.leadOne
+    self.lead_1 = radarState.leadTwo
     cruise_set_speed_kph = cruiseState_speed
 
     if self.lead_0.status:
@@ -133,15 +133,17 @@ class NaviControl():
     dRelTarget = 60
     if dRel < dRelTarget and CS.VSetDis > 60:
       nVDelta = CS.VSetDis - CS.clu_Vanz
-      if nVDelta > 20:
-        cruise_set_speed_kph = CS.clu_Vanz + 10
+      if nVDelta > 30:
+        cruise_set_speed_kph = CS.clu_Vanz + 20
     return  cruise_set_speed_kph
 
   def get_cut_in_car(self):
-      cut_in = 0
-      model_v2 = self.sm['modelV2']
+      radarState = self.sm['radarState']
+      self.lead_0 = radarState.leadOne
+      self.lead_1 = radarState.leadTwo
+      cut_in = True if self.lead_1.status and (self.lead_0.dRel - self.lead_1.dRel) > 3.0 else False
 
-      #leads = model_v2.leads
+      model_v2 = self.sm['modelV2']
       leads_v3 = model_v2.leadsV3
 
       if len(leads_v3) > 1:
