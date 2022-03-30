@@ -83,7 +83,7 @@ class Controls:
       self.sm = messaging.SubMaster(['deviceState', 'pandaStates', 'peripheralState', 'modelV2', 'liveCalibration',
                                      'driverMonitoringState', 'longitudinalPlan', 'lateralPlan', 'liveLocationKalman',
                                      'managerState', 'liveParameters', 'radarState','liveNaviData'] + self.camera_packets + joystick_packet,
-                                     ignore_alive=ignore, ignore_avg_freq=['radarState', 'longitudinalPlan'])
+                                     ignore_alive=ignore, ignore_avg_freq=['radarState', 'longitudinalPlan','driverMonitoringState'])
 
     self.can_sock = can_sock
     if can_sock is None:
