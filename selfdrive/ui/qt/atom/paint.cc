@@ -96,11 +96,11 @@ void OnPaint::updateState(const UIState &s)
     auto radar_state = sm["radarState"].getRadarState();  // radar
     m_param.lead_radar = radar_state.getLeadOne();
 
-    if( memcmp( &m_param, &m_old, sizeof(m_param)) )
-    {
-       m_old = m_param;
+    //if( memcmp( &m_param, &m_old, sizeof(m_param)) )
+    //{
+     //  m_old = m_param;
        update(); 
-    }
+    //}
 
    // setProperty("invalidate", invalidate );
 }
