@@ -105,6 +105,7 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     highCpuUsage @105;
     cruiseMismatch @106;
     lkasDisabled @107;
+    cutInCarDetect  @108;
 
     radarCanErrorDEPRECATED @15;
     communityFeatureDisallowedDEPRECATED @62;
@@ -196,6 +197,10 @@ struct CarState {
   leftBlindspot @33 :Bool; # Is there something blocking the left lane change
   rightBlindspot @34 :Bool; # Is there something blocking the right lane change
 
+  # atom
+  tpms @40 :WheelSpeeds;
+
+
   struct WheelSpeeds {
     # optional wheel speeds
     fl @0 :Float32;
@@ -211,6 +216,12 @@ struct CarState {
     speedOffset @3 :Float32;
     standstill @4 :Bool;
     nonAdaptive @5 :Bool;
+
+    # atom
+    modeSel @6 :Int16;
+    cruiseSwState @7 :Int16;
+    accActive @8 :Bool;
+    gapSet @9 :Int16;
   }
 
   enum GearShifter {
@@ -348,6 +359,9 @@ struct CarControl {
     rightLaneDepart @8: Bool;
     leftLaneDepart @9: Bool;
 
+    # atom
+    vFuture @10: Float32;
+
     enum VisualAlert {
       # these are the choices from the Honda
       # map as good as you can for your car
@@ -459,6 +473,8 @@ struct CarParams {
   networkLocation @50 :NetworkLocation;  # Where Panda/C2 is integrated into the car's CAN network
 
   wheelSpeedFactor @63 :Float32; # Multiplier on wheels speeds to computer actual speeds
+
+  atompilotLongitudinalControl @66  :Bool;
 
   struct SafetyConfig {
     safetyModel @0 :SafetyModel;
