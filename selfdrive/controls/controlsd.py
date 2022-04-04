@@ -533,8 +533,10 @@ class Controls:
     CC = car.CarControl.new_message()
     CC.enabled = self.enabled
     # Check which actuators can be enabled
-    CC.latActive = self.active and not CS.steerFaultTemporary and not CS.steerFaultPermanent and \
-                     CS.vEgo > self.CP.minSteerSpeed and not CS.standstill
+    #CC.latActive = self.active and not CS.steerFaultTemporary and not CS.steerFaultPermanent and \
+    #                  CS.vEgo > self.CP.minSteerSpeed and not CS.standstill
+    CC.latActive = self.active and not CS.steerFaultPermanent and \
+                      CS.vEgo > self.CP.minSteerSpeed and not CS.standstill    
     CC.longActive = self.active
 
     actuators = CC.actuators
