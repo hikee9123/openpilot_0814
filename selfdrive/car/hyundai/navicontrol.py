@@ -135,6 +135,8 @@ class NaviControl():
       nVDelta = CS.VSetDis - CS.clu_Vanz
       if nVDelta > 30:
         cruise_set_speed_kph = CS.clu_Vanz + 20
+        if cruise_set_speed_kph < 60:
+          cruise_set_speed_kph = 60
     return  cruise_set_speed_kph
 
   def get_cut_in_car(self):
@@ -174,9 +176,9 @@ class NaviControl():
       return  cruise_set_speed_kph
     elif v_ego_kph < 80:
       if speedLimit <= 60:
-        spdTarget = interp( speedLimitDistance, [150, 600], [ speedLimit, speedLimit + 30 ] )
+        spdTarget = interp( speedLimitDistance, [150, 600], [ speedLimit, speedLimit + 10 ] )
       else:      
-        spdTarget = interp( speedLimitDistance, [200, 800], [ speedLimit, speedLimit + 50 ] )
+        spdTarget = interp( speedLimitDistance, [200, 800], [ speedLimit, speedLimit + 30 ] )
     elif speedLimitDistance >= 50:
         spdTarget = interp( speedLimitDistance, [300, 900], [ speedLimit, speedLimit + 50 ] )
     else:
