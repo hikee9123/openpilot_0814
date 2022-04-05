@@ -125,7 +125,7 @@ class CarController():
 
     actuators = c.actuators
     vFuture = c.hudControl.vFuture * 3.6
-    str_log1 = 'MODE={:.0f} vF={:.1f} gas={:.2f}'.format( CS.cruise_set_mode, vFuture, CS.out.gas )
+    str_log1 = 'MODE={:.0f} vF={:.1f} TG={:.1f}'.format( CS.cruise_set_mode, vFuture, self.apply_steer_last )
     trace1.printf2( '{}'.format( str_log1 ) )
 
 
