@@ -911,7 +911,7 @@ struct LateralPlan @0xe1e9318e2ae8b51e {
 
   # atom
   laneLess @32 :Bool;
-  modelSpeed @32 :Float32;
+  modelSpeed @33 :Float32;
 
   enum Desire {
     none @0;
