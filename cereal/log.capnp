@@ -910,7 +910,7 @@ struct LateralPlan @0xe1e9318e2ae8b51e {
   solverExecutionTime @30 :Float32;
 
   # atom
-  laneLess @31 :Bool;
+  laneLess @32 :Bool;
   modelSpeed @32 :Float32;
 
   enum Desire {
