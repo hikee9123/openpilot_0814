@@ -528,9 +528,9 @@ void OnPaint::bb_ui_draw_measures_left(QPainter &p, int bb_x, int bb_y, int bb_w
     QColor val_color = QColor(255, 255, 255, 200);
 
     if( fEngineRpm > 2500 ) {
-      val_color = nvgRGBA(255, 188, 3, 200);
+      val_color = QColor(255, 188, 3, 200);
     } else if( fEngineRpm > 3500 ) {
-      val_color = nvgRGBA(255, 0, 0, 200);
+      val_color = QColor(255, 0, 0, 200);
     }
 
     val_str.sprintf("%.0f", fEngineRpm);  // BF
