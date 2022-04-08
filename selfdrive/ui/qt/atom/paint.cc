@@ -520,6 +520,28 @@ void OnPaint::bb_ui_draw_measures_left(QPainter &p, int bb_x, int bb_y, int bb_w
     bb_ry = bb_y + bb_h;
   }
 
+  
+  if( true )
+  {
+    float fEngineRpm = scene->car_state.getEngineRpm();
+    uom_color = QColor(255, 255, 255, 200);
+    QColor val_color = QColor(255, 255, 255, 200);
+
+    if( fEngineRpm > 2500 ) {
+      val_color = nvgRGBA(255, 188, 3, 200);
+    } else if( fEngineRpm > 3500 ) {
+      val_color = nvgRGBA(255, 0, 0, 200);
+    }
+
+    val_str.sprintf("%.0f", fEngineRpm);  // BF
+    uom_str.sprintf("rpm");  
+
+    bb_h +=bb_ui_draw_measure(p,  val_str, uom_str, "ENGINE",
+      bb_rx, bb_ry, bb_uom_dx,
+      val_color, lab_color, uom_color,
+      value_fontSize, label_fontSize, uom_fontSize );
+    bb_ry = bb_y + bb_h;
+  }
 
   //finally draw the frame
   bb_h += 20;
