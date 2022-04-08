@@ -501,7 +501,7 @@ void OnPaint::bb_ui_draw_measures_left(QPainter &p, int bb_x, int bb_y, int bb_w
   }
 
   //add  desired steering angle
-  if( true )
+  if( false )
   {
    // float angleSteersDes = scene->controls_state.getSteeringAngleDesiredDegDEPRECATED();  
     uom_color = QColor(255, 255, 255, 200);
