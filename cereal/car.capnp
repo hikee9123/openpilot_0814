@@ -66,6 +66,7 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     accFaulted @51;
     sensorDataInvalid @52;
     commIssue @53;
+    commIssueAvgFreq @109;
     tooDistracted @54;
     posenetInvalid @55;
     soundsUnavailable @56;
@@ -95,6 +96,7 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     deviceFalling @90;
     fanMalfunction @91;
     cameraMalfunction @92;
+    cameraFrameRate @110;
     gpsMalfunction @94;
     processNotRunning @95;
     dashcamMode @96;
@@ -107,7 +109,8 @@ struct CarEvent @0x9b1657f34caf3ad3 {
     highCpuUsage @105;
     cruiseMismatch @106;
     lkasDisabled @107;
-    cutInCarDetect  @109;
+    canBusMissing @111;
+    cutInCarDetect  @112;
 
     radarCanErrorDEPRECATED @15;
     communityFeatureDisallowedDEPRECATED @62;
@@ -448,6 +451,7 @@ struct CarParams {
     pid @26 :LateralPIDTuning;
     indi @27 :LateralINDITuning;
     lqr @40 :LateralLQRTuning;
+    torque @67 :LateralTorqueTuning;
   }
 
   steerLimitAlert @28 :Bool;
@@ -478,7 +482,7 @@ struct CarParams {
 
   wheelSpeedFactor @63 :Float32; # Multiplier on wheels speeds to computer actual speeds
 
-  atompilotLongitudinalControl @67  :Bool;
+  atompilotLongitudinalControl @68  :Bool;
 
   struct SafetyConfig {
     safetyModel @0 :SafetyModel;
@@ -495,6 +499,14 @@ struct CarParams {
     kpV @1 :List(Float32);
     kiBP @2 :List(Float32);
     kiV @3 :List(Float32);
+    kf @4 :Float32;
+  }
+
+  struct LateralTorqueTuning {
+    useSteeringAngle @0 :Bool;
+    kp @1 :Float32;
+    ki @2 :Float32;
+    friction @3 :Float32;
     kf @4 :Float32;
   }
 
