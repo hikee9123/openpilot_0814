@@ -277,7 +277,7 @@ class CarState(CarStateBase):
       gear = cp.vl["TCU12"]["CUR_GR"]
     elif self.CP.carFingerprint in FEATURES["use_elect_gears"]:
       gear = cp.vl["ELECT_GEAR"]["Elect_Gear_Shifter"]
-      # electGearStep = cp.vl["ELECT_GEAR"]["Elect_Gear_Step"] # opkr
+      ret.electGearStep = cp.vl["ELECT_GEAR"]["Elect_Gear_Step"] # opkr
     else:
       gear = cp.vl["LVR12"]["CF_Lvr_Gear"]
 
@@ -483,8 +483,10 @@ class CarState(CarStateBase):
 
     if CP.carFingerprint in (HYBRID_CAR | EV_CAR):
       if CP.carFingerprint in HYBRID_CAR:
-        signals.append(("CR_Vcu_AccPedDep_Pos", "E_EMS11"))
-        signals.append(("N", "E_EMS11"))
+        signals += [
+          ("CR_Vcu_AccPedDep_Pos", "E_EMS11"),
+          ("N", "E_EMS11"),
+        ]      
       else:
         signals.append(("Accel_Pedal_Pos", "E_EMS11"))
       checks.append(("E_EMS11", 50))
@@ -505,8 +507,10 @@ class CarState(CarStateBase):
       signals.append(("CUR_GR", "TCU12"))
       checks.append(("TCU12", 100))
     elif CP.carFingerprint in FEATURES["use_elect_gears"]:
-      signals.append(("Elect_Gear_Shifter", "ELECT_GEAR"))
-      signals.append(("Elect_Gear_Step", "ELECT_GEAR"))
+      signals += [
+        ("Elect_Gear_Shifter", "ELECT_GEAR"),
+        ("Elect_Gear_Step", "ELECT_GEAR"),
+      ]
       checks.append(("ELECT_GEAR", 20))
     else:
       signals.append(("CF_Lvr_Gear", "LVR12"))

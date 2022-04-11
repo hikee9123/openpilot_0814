@@ -129,7 +129,7 @@ class CarController():
     trace1.printf2( '{}'.format( str_log1 ) )
 
 
-    str_log1 = 'aReqValue={:.2f}, cut_in={:.2f} RPM={:.1f}'.format( CS.aReqValue, cut_in, CS.out.engineRpm )
+    str_log1 = 'aReqValue={:.2f}, cut_in={:.2f} Gear={:.0f}'.format( CS.aReqValue, cut_in, CS.out.electGearStep )
     trace1.printf3( '{}'.format( str_log1 ) )
   
 

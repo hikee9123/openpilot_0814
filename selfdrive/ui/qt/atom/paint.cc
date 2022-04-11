@@ -524,6 +524,8 @@ void OnPaint::bb_ui_draw_measures_left(QPainter &p, int bb_x, int bb_y, int bb_w
   if( true )
   {
     float fEngineRpm = scene->car_state.getEngineRpm();
+    int   electGearStep  = scene->car_state.getElectGearStep();
+  
     uom_color = QColor(255, 255, 255, 200);
     QColor val_color = QColor(255, 255, 255, 200);
 
@@ -539,7 +541,7 @@ void OnPaint::bb_ui_draw_measures_left(QPainter &p, int bb_x, int bb_y, int bb_w
       else if( fEngineRpm > 3000 ) val_color = QColor(255, 0, 0, 200);
     }
     
-    uom_str.sprintf("rpm");  
+    uom_str.sprintf("%d", electGearStep );
 
     bb_h +=bb_ui_draw_measure(p,  val_str, uom_str, "ENGINE",
       bb_rx, bb_ry, bb_uom_dx,
