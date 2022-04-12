@@ -25,7 +25,7 @@ class NaviControl():
     self.target_speed = 0
     self.set_point = 0
     self.wait_timer2 = 0
-
+    self.set_speed_kph = 0
 
     self.moveAvg = mvAvg.MoveAvg()
 
@@ -141,20 +141,18 @@ class NaviControl():
 
   def get_cut_in_car(self):
       cut_in = 0
-      radarState = self.sm['radarState']
-      self.lead_0 = radarState.leadOne
-      self.lead_1 = radarState.leadTwo
 
-      if self.lead_1.status:
-        cut_in = self.lead_0.dRel - self.lead_1.dRel
+      model_v2 = self.sm['modelV2']
+      leads_v3 = model_v2.leadsV3
 
-      #model_v2 = self.sm['modelV2']
-      #leads_v3 = model_v2.leadsV3
-      #if len(leads_v3) > 1:
-      #  if leads_v3[0].prob > 0.5 and leads_v3[1].prob > 0.5:
-      #    cut_in = leads_v3[0].x[0] - leads_v3[1].x[0]  # > 3
+      d_rel1 = leads_v3[0].x[0]
+      d_rel2 = leads_v3[1].x[0]
 
-      return cut_in
+      if len(leads_v3) > 1:
+        if leads_v3[0].prob > 0.5 and leads_v3[1].prob > 0.5:
+          cut_in = d_rel1 - d_rel2  # > 3
+
+      return cut_in, d_rel1, d_rel2
 
 
 
@@ -176,9 +174,9 @@ class NaviControl():
       return  cruise_set_speed_kph
     elif v_ego_kph < 80:
       if speedLimit <= 60:
-        spdTarget = interp( speedLimitDistance, [150, 600], [ speedLimit, speedLimit + 10 ] )
+        spdTarget = interp( speedLimitDistance, [150, 600], [ speedLimit, speedLimit + 30 ] )
       else:      
-        spdTarget = interp( speedLimitDistance, [200, 800], [ speedLimit, speedLimit + 30 ] )
+        spdTarget = interp( speedLimitDistance, [200, 800], [ speedLimit, speedLimit + 40 ] )
     elif speedLimitDistance >= 50:
         spdTarget = interp( speedLimitDistance, [300, 900], [ speedLimit, speedLimit + 50 ] )
     else:
@@ -244,7 +242,7 @@ class NaviControl():
         self.ctrl_speed = self.auto_speed_control( c, CS, self.ctrl_speed, path_plan )
 
 
-
+      self.set_speed_kph = self.ctrl_speed
       btn_signal = self.ascc_button_control( CS, self.ctrl_speed )
 
     return btn_signal

@@ -110,14 +110,14 @@ class CarController():
 
 
   def update_debug(self, CS, c ):
-    cut_in = self.NC.get_cut_in_car()
+    cut_in, d_rel1, d_rel2 = self.NC.get_cut_in_car()
     if abs(cut_in) > 3:
       self.cut_in_car_time += 1
     else:
       self.cut_in_car_time = 0
       
 
-    if self.cut_in_car_time > 20:
+    if self.cut_in_car_time > 1:
       self.cut_in_car_alert = True
     else:
       self.cut_in_car_alert = False
@@ -129,7 +129,7 @@ class CarController():
     trace1.printf2( '{}'.format( str_log1 ) )
 
 
-    str_log1 = 'aReqValue={:.2f}, cut_in={:.2f} Gear={:.0f}'.format( CS.aReqValue, cut_in, CS.out.electGearStep )
+    str_log1 = 'aReqValue={:.2f}, cut_in={:.1f},{:.1f},{:.1f} NV={:.0f}'.format( CS.aReqValue, cut_in, d_rel1, d_rel2, self.NC.set_speed_kph )
     trace1.printf3( '{}'.format( str_log1 ) )
   
 
@@ -278,13 +278,13 @@ class CarController():
     can_sends.append( create_mdps12(self.packer, self.frame, CS.mdps12) )
 
     if  self.CP.openpilotLongitudinalControl:
-      can_sends = self.updateLongitudinal( can_sends, c, CS )
+      self.updateLongitudinal( can_sends, c, CS )
     else:
-      can_sends = self.update_resume( can_sends, c, CS, path_plan )
+      self.update_resume( can_sends, c, CS, path_plan )
 
     if self.CP.atompilotLongitudinalControl:
       if (self.frame % 2 == 0) and CS.cruise_set_mode == 2:
-        can_sends = self.update_scc12( can_sends, c, CS )
+        self.update_scc12( can_sends, c, CS )
         self.scc12_cnt += 1
     else:
       self.accel = CS.aReqValue
