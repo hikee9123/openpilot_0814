@@ -145,8 +145,8 @@ class NaviControl():
       model_v2 = self.sm['modelV2']
       leads_v3 = model_v2.leadsV3
 
-      #d_rel1 = leads_v3[0].x[0]
-      #d_rel2 = leads_v3[1].x[0]
+      d_rel1 = 0 #leads_v3[0].x[0]
+      d_rel2 = 0 #leads_v3[1].x[0]
 
       if len(leads_v3) > 1:
         d_rel1 = leads_v3[0].x[0] 
