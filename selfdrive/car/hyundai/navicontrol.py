@@ -130,7 +130,7 @@ class NaviControl():
     else:
       dRel = 150
 
-    dRelTarget = 60
+    dRelTarget = 30
     if dRel < dRelTarget and CS.VSetDis > 60:
       nVDelta = CS.VSetDis - CS.clu_Vanz
       if nVDelta > 30:
