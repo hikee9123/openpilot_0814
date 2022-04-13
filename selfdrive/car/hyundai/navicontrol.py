@@ -145,11 +145,13 @@ class NaviControl():
       model_v2 = self.sm['modelV2']
       leads_v3 = model_v2.leadsV3
 
-      d_rel1 = leads_v3[0].x[0]
-      d_rel2 = leads_v3[1].x[0]
+      #d_rel1 = leads_v3[0].x[0]
+      #d_rel2 = leads_v3[1].x[0]
 
       if len(leads_v3) > 1:
-        if leads_v3[0].prob > 0.5 and leads_v3[1].prob > 0.5:
+        d_rel1 = leads_v3[0].x[0] 
+        d_rel2 = leads_v3[1].x[0]
+        if leads_v3[0].prob > 0.5 and leads_v3[1].prob > 0.5 and d_rel2 < 60:
           cut_in = d_rel1 - d_rel2  # > 3
 
       return cut_in, d_rel1, d_rel2
