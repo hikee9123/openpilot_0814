@@ -375,12 +375,12 @@ static int hyundai_tx_hook(CANPacket_t *to_send, bool longitudinal_allowed) {
   }
 
   // BUTTONS: used for resume spamming and cruise cancellation
-  if ((addr == 1265) && !hyundai_longitudinal) {  // CLU11
+  if ((addr == 1265) && !controls_allowed) {  // CLU11
     int button = GET_BYTE(to_send, 0) & 0x7U;
 
-    bool allowed_resume = (button == HYUNDAI_BTN_RESUME) && controls_allowed;
+   // bool allowed_resume = (button == HYUNDAI_BTN_RESUME) && controls_allowed;
     bool allowed_cancel = (button == HYUNDAI_BTN_CANCEL) && cruise_engaged_prev;
-    if (!(allowed_resume || allowed_cancel)) {
+    if ( !allowed_cancel ) {
       tx = 0;
     }
   }
