@@ -83,7 +83,7 @@ class NaviControl():
       self.btn_cnt += 1
       if self.target_speed == self.VSetDis:
         self.btn_cnt = 0
-        self.seq_command = 3            
+        self.seq_command = 3
       elif self.btn_cnt > 10:
         self.btn_cnt = 0
         self.seq_command = 3
@@ -141,17 +141,16 @@ class NaviControl():
 
   def get_cut_in_car(self):
       cut_in = 0
+      d_rel1 = 0 #leads_v3[0].x[0]
+      d_rel2 = 0 #leads_v3[1].x[0]
 
       model_v2 = self.sm['modelV2']
       leads_v3 = model_v2.leadsV3
 
-      d_rel1 = 0 #leads_v3[0].x[0]
-      d_rel2 = 0 #leads_v3[1].x[0]
-
       if len(leads_v3) > 1:
         d_rel1 = leads_v3[0].x[0] 
         d_rel2 = leads_v3[1].x[0]
-        if leads_v3[0].prob > 0.5 and leads_v3[1].prob > 0.5 and d_rel2 < 60:
+        if leads_v3[0].prob > 0.5 and leads_v3[1].prob > 0.5 and d_rel2 < 30:
           cut_in = d_rel1 - d_rel2  # > 3
 
       return cut_in, d_rel1, d_rel2

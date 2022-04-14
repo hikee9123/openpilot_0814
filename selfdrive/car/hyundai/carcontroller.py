@@ -33,6 +33,7 @@ class CarController():
     self.lkas11_cnt = 0
     self.scc12_cnt = 0
     self.NC = NaviControl(self.params)
+    self.debug_button = 0
     self.cut_in_car_alert = False
     self.cut_in_car_time = 0
     
@@ -125,11 +126,11 @@ class CarController():
 
     actuators = c.actuators
     vFuture = c.hudControl.vFuture * 3.6
-    str_log1 = 'MODE={:.0f} vF={:.1f} TG={:.1f}'.format( CS.cruise_set_mode, vFuture, self.apply_steer_last )
+    str_log1 = 'MODE={:.0f} vF={:.1f} TG={:.1f} cut_in={:.1f}={:.1f}-{:.1f}'.format( CS.cruise_set_mode, vFuture, self.apply_steer_last, cut_in, d_rel1, d_rel2, )
     trace1.printf2( '{}'.format( str_log1 ) )
 
 
-    str_log1 = 'aReqValue={:.2f}, cut_in={:.1f},{:.1f},{:.1f} NV={:.0f}'.format( CS.aReqValue, cut_in, d_rel1, d_rel2, self.NC.set_speed_kph )
+    str_log1 = 'aRV={:.2f},  NV={:.0f} BT={:.0f} KPH={:.0f}'.format( CS.aReqValue,  self.NC.seq_command, self.debug_button, self.NC.set_speed_kph )
     trace1.printf3( '{}'.format( str_log1 ) )
   
 
@@ -211,9 +212,11 @@ class CarController():
     elif CS.out.cruiseState.accActive:
       btn_signal = self.NC.update( c, CS, path_plan )
       if btn_signal != None:
+        self.debug_button = btn_signal
         can_sends.append(create_clu11(self.packer, self.resume_cnt, CS.clu11, btn_signal ))
         self.resume_cnt += 1
       else:
+        self.debug_button = 0
         self.resume_cnt = 0
 
 
