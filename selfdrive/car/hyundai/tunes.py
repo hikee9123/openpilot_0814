@@ -55,9 +55,9 @@ def set_lat_tune(tune, name, MAX_LAT_ACCEL=2.5, FRICTION=.1):
   if name == LatTunes.TORQUE:
     tune.init('torque')
     tune.torque.useSteeringAngle = True
-    tune.torque.kp = 2.0 / MAX_LAT_ACCEL
-    tune.torque.kf = 1.0 / MAX_LAT_ACCEL
-    tune.torque.ki = 0.5 / MAX_LAT_ACCEL
+    tune.torque.kp = 2.0 / MAX_LAT_ACCEL        # 2.0 / 2.5 = 0.8
+    tune.torque.kf = 1.0 / MAX_LAT_ACCEL        # 1.0 / 2.5 = 0.4
+    tune.torque.ki = 0.5 / MAX_LAT_ACCEL        # 0.5 / 2.5 = 0.2
     tune.torque.friction = FRICTION
   elif name == LatTunes.LQR_GRANDEUR:  
     tune.init('lqr')
