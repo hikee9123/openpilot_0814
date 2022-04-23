@@ -126,11 +126,11 @@ class CarController():
 
     actuators = c.actuators
     vFuture = c.hudControl.vFuture * 3.6
-    str_log1 = 'MODE={:.0f} vF={:.1f} TG={:.1f} cut_in={:.1f}={:.1f}-{:.1f}'.format( CS.cruise_set_mode, vFuture, self.apply_steer_last, cut_in, d_rel1, d_rel2, )
+    str_log1 = 'MODE={:.0f} vF={:.1f}  '.format( CS.cruise_set_mode, vFuture )
     trace1.printf2( '{}'.format( str_log1 ) )
 
 
-    str_log1 = 'aRV={:.2f},  NV={:.0f} BT={:.0f} KPH={:.0f}'.format( CS.aReqValue,  self.NC.seq_command, self.debug_button, self.NC.set_speed_kph )
+    str_log1 = 'TG={:.1f}  aRV={:.2f}'.format( self.apply_steer_last, CS.aReqValue  )
     trace1.printf3( '{}'.format( str_log1 ) )
   
 
@@ -239,6 +239,7 @@ class CarController():
     new_steer = int(round(actuators.steer * self.params.STEER_MAX))
     apply_steer = apply_std_steer_torque_limits(new_steer, self.apply_steer_last, CS.out.steeringTorque, self.params)
     self.steer_rate_limited = new_steer != apply_steer
+    apply_steer = clip( apply_steer, -self.params.STEER_MAX, self.params.STEER_MAX )
 
     if CS.engage_enable and not enabled:
       CS.engage_enable = False
@@ -252,8 +253,8 @@ class CarController():
     if not lkas_active:
       apply_steer = 0
       self.steer_timer_apply_torque = 0
-    else:
-      apply_steer = self.smooth_steer(  apply_steer )
+    #else:
+    #  apply_steer = self.smooth_steer(  apply_steer )
 
     self.apply_steer_last = apply_steer
     sys_warning, sys_state = self.process_hud_alert( lkas_active, c, CS )
