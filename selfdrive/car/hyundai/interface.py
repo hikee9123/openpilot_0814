@@ -65,9 +65,9 @@ class CarInterface(CarInterfaceBase):
       ret.lateralTuning.pid.kpBP, ret.lateralTuning.pid.kpV = [[0.], [0.25]]
       ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kiV = [[0.], [0.05]]
 
-      #set_lat_tune(ret.lateralTuning, LatTunes.LQR_GRANDEUR)
+      set_lat_tune(ret.lateralTuning, LatTunes.LQR_GRANDEUR)
       #set_lat_tune(ret.lateralTuning, LatTunes.TORQUE, MAX_LAT_ACCEL=2.5, FRICTION=0.1)
-      set_lat_tune(ret.lateralTuning, LatTunes.TORQUE, MAX_LAT_ACCEL=2.5, FRICTION=0.0) # 0.06
+      #set_lat_tune(ret.lateralTuning, LatTunes.TORQUE, MAX_LAT_ACCEL=2.5, FRICTION=0.0) # 0.06
       #set_lat_tune(ret.lateralTuning, LatTunes.TORQUE, MAX_LAT_ACCEL=3.0, FRICTION=0.08)
       #ret.lateralTuning.init('lqr')
       #ret.lateralTuning.lqr.scale = 2000     #1700.0
